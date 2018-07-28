@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}FeQta{% endblock %}</title>
+    {% include 'snippets/css.html' %}
+</head>
+<body>
+{% include 'snippets/nav.html' %}
+<div class="container container-fluid">
+<h4 style="margin-top: 150px">Base template running fine !</h4>
+{% block body %}
+{% endblock %}
+</div>
+{% include 'snippets/js.html' %}
+</body>
+</html>
