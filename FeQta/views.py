@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.base import TemplateView
-import random
 from django.http import HttpResponse
+import random
 
 
-# Create your views here.
 
 class HomeView(TemplateView):
     template_name = 'home.html'
