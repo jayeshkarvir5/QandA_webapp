@@ -1,17 +1,20 @@
 from django.db import models
 
+
+#read docs for fields
+
 class Topic(models.Model):
     name = models.CharField(max_length=100)
-    desc = models.CharField(max_length=300)
+    desc = models.CharField(max_length=300,blank=True)
     followers = models.IntegerField()
-    album_logo = models.FileField()
+    topic_logo = models.FileField()
     def __str__(self):
         return self.name + '-' + self.desc
 
 class Question(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     question = models.CharField(max_length=500)
-    desc = models.CharField(max_length=300)
+    desc = models.CharField(max_length=300,blank=True)
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

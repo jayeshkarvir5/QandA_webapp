@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<h4>Home page rendered successfully !</h4>
+<p>Displaying Topic from db</p> <br/>
+    {% for topic in topics %}
+        <p>{{ topic }}</p> <br/>
+    {% endfor %}
+{% endblock %}

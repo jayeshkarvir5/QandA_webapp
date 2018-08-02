@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+
+{% block title %}Topic{% endblock %}
+
+{% block body %}
+    <h4>Topic_detail page rendered successfully !</h4>
+    <img src="{{ topic.topic_logo }}" />
+    <h4>{{ topic.name }}</h4>
+    <p>{{ topic.desc }}</p> <br />
+{% endblock %}
