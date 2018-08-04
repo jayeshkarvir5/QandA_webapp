@@ -16,12 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from FeQta import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.HomeListView.as_view(), name="home"),
-    path('home/<int:pk>/', views.TopicDetailView.as_view(), name="topic_detail"),
+    path('home/<slug>/', views.TopicDetailView.as_view(), name="topic_detail"),
     path('answers/', views.AnswersView.as_view(), name="answers"),
     path('ranks/', views.RanksView.as_view(), name="ranks"),
     path('profile/', views.ProfileView.as_view(), name="profile"),
-    path('get-started/', views.Get_StartedView.as_view(), name="get_started"),
+    path('get-started/', views.GetStartedView.as_view(), name="get_started"),
 ]
+
+if settings.DEBUG:
+    # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

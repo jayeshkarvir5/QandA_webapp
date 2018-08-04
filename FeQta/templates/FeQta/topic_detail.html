@@ -4,8 +4,34 @@
 {% block title %}Topic{% endblock %}
 
 {% block body %}
-    <h4>Topic_detail page rendered successfully !</h4>
-    <img src="{{ topic.topic_logo }}" />
-    <h4>{{ topic.name }}</h4>
-    <p>{{ topic.desc }}</p> <br />
+    <!--<h4>Topic_detail page rendered successfully !</h4>-->
+<style>
+    .card{
+        font-family: 'Merriweather', serif;
+    }
+    .btn:hover{
+        background-color: #41b0e8;
+        border-color: #41b0e8;
+    }
+    /*.btn{*/
+	    /*background: none;*/
+    /*}*/
+    /*.btn-outline-primary{*/
+	    /*border: 2px solid #41b0e8;*/
+	    /*color: #41b0e8;*/
+    /*}*/
+</style>
+    <div class="card text-center">
+        <div class="card-body">
+            <h4 class="card-title">{{ topic.name }}</h4><br/>
+            <img class="card-img-top" src="{{ topic.topic_logo.url }}"
+                 style="width:18em;height:18em" /><br/><br/>
+            <p class="card-text">{{ topic.desc }}</p><br/>
+            <a href="#" class="btn btn-outline-info">Follow</a>
+        </div>
+
+    </div>
+    <!--<img src="{{ topic.topic_logo.url }}" style="width:18em;height:18em" />-->
+    <!--<h4>{{ topic.name }}</h4>-->
+    <!--<p>{{ topic.desc }}</p> <br />-->
 {% endblock %}

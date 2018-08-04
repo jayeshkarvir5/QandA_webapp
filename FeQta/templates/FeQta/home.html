@@ -7,6 +7,6 @@
 <h4>Home page rendered successfully !</h4>
 <p>Displaying Topic from db</p> <br/>
     {% for topic in topics %}
-        <p>{{ topic }}</p> <br/>
+        <p><a href="{{ topic.slug }}"> {{ topic }} </a></p> <br/>
     {% endfor %}
 {% endblock %}
