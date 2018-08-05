@@ -4,9 +4,10 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<h4>Home page rendered successfully !</h4>
-<p>Displaying Topic from db</p> <br/>
-    {% for topic in topics %}
-        <p><a href="{{ topic.slug }}"> {{ topic }} </a></p> <br/>
+<h5>Home page rendered successfully !</h5>
+<p>Displaying demo data</p> <br/>
+    {% for i in demo_data %}
+        <p>{{ i }}</p> <br/>
     {% endfor %}
+    <p> {{ num }} is another context var</p>
 {% endblock %}

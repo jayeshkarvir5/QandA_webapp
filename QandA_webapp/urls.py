@@ -21,8 +21,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', views.HomeListView.as_view(), name="home"),
-    path('home/<slug>/', views.TopicDetailView.as_view(), name="topic_detail"),
+    path('home/', views.HomeView.as_view(), name="home"),
+    path('topics/', views.TopicListView.as_view(), name="topics"),
+    path('topics/<slug>/', views.TopicDetailView.as_view(), name="topic_detail"),
+    path('add-topic/', views.TopicCreateView.as_view(), name="topic_create"),
     path('answers/', views.AnswersView.as_view(), name="answers"),
     path('ranks/', views.RanksView.as_view(), name="ranks"),
     path('profile/', views.ProfileView.as_view(), name="profile"),

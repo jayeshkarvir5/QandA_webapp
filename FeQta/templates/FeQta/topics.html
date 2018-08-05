@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block title %}Topics{% endblock %}
+
+{% block body %}
+    <style>
+        a{
+            text-decoration: none;
+        }
+    </style>
+        {% for topic in topics %}
+            <div class="card mb-1">
+                <div class="card-body">
+                    <p class="card-title"><img src="{{ topic.topic_logo.url }}"
+                        class="rounded float-left mr-2" style="width:5em;height:5em">
+                        <a class="nav-link" href="{{ topic.slug }}">{{ topic }}</a></p>
+                </div>
+            </div>
+        {% endfor %}
+{% endblock %}

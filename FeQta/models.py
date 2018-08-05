@@ -7,9 +7,9 @@ from .utils import unique_slug_generator
 class Topic(models.Model):
     name = models.CharField(max_length=100)
     desc = models.CharField(max_length=300, blank=True)
-    followers = models.IntegerField()
+    followers = models.IntegerField(null=True, blank=True)
     topic_logo = models.FileField()
-    slug = models.SlugField(blank=True)
+    slug = models.SlugField(null=True, blank=True)
 
     def __str__(self):
         return self.name + '-' + self.desc
