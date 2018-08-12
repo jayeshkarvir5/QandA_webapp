@@ -7,22 +7,43 @@
 <style>
     .card{
         font-family: 'Merriweather', serif;
+
     }
-    .btn:hover{
-        background-color: #41b0e8;
-        border-color: #41b0e8;
+    #follow-btn{
+        color: #1b2845;
+        border-color: #1b2845;
+    }
+    #follow-btn:hover{
+        color: #fff;
+        background-color: #1b2845;
+        border-color: #1b2845;
+    }
+    .img-fluid{
+        max-width:15em;
+        max-height: 15em;
+        height: auto;
     }
 </style>
-    <div class="card text-center">
+    <div class="card text-center " style="width: 60%;margin-left:20%; ">
         <div class="card-body">
             <h4 class="card-title">{{ topic.name }}</h4><br/>
-            <img class="card-img-top" src="{{ topic.topic_logo.url }}"
-                 style="width:18em;height:18em" /><br/><br/>
+            <img class="card-img-top img-fluid" src="{{ topic.topic_logo.url }}"
+                   /><br/><br/>
             <p class="card-text">{{ topic.desc }}</p><br/>
-            <a href="#" class="btn btn-outline-info">Follow</a>
+            <a href="#" class="btn btn-outline-secondary" id="follow-btn">Follow</a>
         </div>
-
+         </div>
+    <div class="mt-3">
+        {% for ques in topic.question_set.all %}
+        <div class="card mb-1">
+                <div class="card-body">
+                        <h5>{{ ques.question }}</h5>
+                        <p>{{ ques.desc }}</p>
+                </div>
+        </div>
+        {% endfor %}
     </div>
+
 {% endblock %}
 
 
