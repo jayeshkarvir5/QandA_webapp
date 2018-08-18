@@ -1,11 +1,7 @@
 {% extends "base.html" %}
 
-{% block content %}
-<style>
-    body{
-        color:#000;
-    }
-</style>
+{% block body %}
+<p>This works</p>
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -19,7 +15,7 @@
     {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'login' %}">
+<form method="post" action="{% url 'FeQta:login' %}">
 {% csrf_token %}
 <table>
 <tr>
@@ -36,8 +32,6 @@
 <input type="hidden" name="next" value="{{ next }}">
 </form>
 
-
+{# Assumes you setup the password_reset view in your URLconf #}
 
 {% endblock %}
-<!--{# Assumes you setup the password_reset view in your URLconf #}-->
-<!--<p><a href="{% url 'password_reset' %}">Lost password?</a></p>-->

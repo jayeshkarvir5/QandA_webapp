@@ -1,12 +1,9 @@
 from django.shortcuts import render
-# from django.contrib.auth.decorators import login_required
-# for FBV
-# from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView  # ,UpdateView,DeleteView
-from django.http import HttpResponse,HttpResponseRedirect
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Topic, Question
 from django.urls import reverse_lazy
 from .forms import QuestionCreateForm
@@ -43,14 +40,14 @@ class TopicDetailView(generic.DetailView):
 class TopicCreateView(CreateView):
     model = Topic
     fields = ['name', 'desc', 'topic_logo']
-    success_url = reverse_lazy('home')
+    # success_url = reverse_lazy('home')
 
 
 class QuestionCreateView(LoginRequiredMixin, CreateView):
     model = Question
     form_class = QuestionCreateForm
-    login_url = '/login/'
-    success_url = '/home/'
+    login_url = '/FeQta/get-started/'
+    success_url = '/FeQta/topics/'
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -59,21 +56,23 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
 
 
 class AnswersView(TemplateView):
-    template_name = 'answers.html'
+    template_name = 'FeQta/answers.html'
 
 
 class RanksView(TemplateView):
-    template_name = 'ranks.html'
+    template_name = 'FeQta/ranks.html'
 
 
 class ProfileView(TemplateView):
-    template_name = 'profile.html'
+    template_name = 'FeQta/profile.html'
 
 
-class GetStartedView(TemplateView):
-    template_name = 'get_started.html'
 
 
+# notes
+# from django.contrib.auth.decorators import login_required
+# for FBV
+# from django.views.generic import View
 # def question_create_view(request):
 #     form = QuestionCreateForm(request.POST or None)
 #     errors = None

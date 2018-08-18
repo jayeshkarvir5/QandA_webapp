@@ -7,13 +7,13 @@
   <div class="collapse navbar-collapse ml-sm-5" id="navbarToggler">
     <ul class="navbar-nav mr-auto  mt-lg-0 ">
       <li class="nav-item active mr-3">
-        <a class="nav-link" href="/home/"><i class="fas fa-clipboard-list"></i> Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'FeQta:home' %}"><i class="fas fa-clipboard-list"></i> Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item mr-3">
-        <a class="nav-link" href="/answers/"><i class="fas fa-pencil-alt"></i> Answer</a>
+        <a class="nav-link" href="{% url 'FeQta:answers' %}"><i class="fas fa-pencil-alt"></i> Answer</a>
       </li>
          <li class="nav-item mr-3">
-        <a class="nav-link" href="/ranks/"><i class="fas fa-crown"></i> Ranks</a>
+        <a class="nav-link" href="{% url 'FeQta:ranks' %}"><i class="fas fa-crown"></i> Ranks</a>
       </li>
         <li class="nav-item mr-3">
             <a class="nav-link" data-toggle="collapse" href="#CollapseSearch" role="button"
@@ -23,16 +23,16 @@
     </ul>
       <ul class="navbar-nav ml-auto ">
           <li class="nav-item mr-3">
-              <a class="nav-link" href="/topics/"><i class="fas fa-rocket"></i> Topics</a>
+              <a class="nav-link" href="{% url 'FeQta:topics' %}"><i class="fas fa-rocket"></i> Topics</a>
           </li>
           <li class="nav-item mr-3">
-              <a class="nav-link" href="/ask/"><i class="fas fa-plus"></i> Ask</a>
+              <a class="nav-link" href="{% url 'FeQta:question_create' %}"><i class="fas fa-plus"></i> Ask</a>
           </li>
           <li class="nav-item mr-3">
-              <a class="nav-link" href="/profile/"><i class="fas fa-user-alt"></i> Profile</a>
+              <a class="nav-link" href="{% url 'FeQta:profile' %}"><i class="fas fa-user-alt"></i> Profile</a>
           </li>
           <li class="nav-item mr-5">
-              <a href="/get-started/"><button class="btn btn-outline-warning" type="button">Get Started</button></a>
+              <a href="{% url 'FeQta:login' %}"><button class="btn btn-outline-warning" type="button">Get Started</button></a>
           </li>
            </ul>
   </div>
