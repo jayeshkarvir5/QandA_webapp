@@ -5,20 +5,7 @@
 
 {% block body %}
 <style>
-    .card{
-        font-family: 'Merriweather', serif;
-
-    }
-    #follow-btn{
-        color: #1b2845;
-        border-color: #1b2845;
-    }
-    #follow-btn:hover{
-        color: #fff;
-        background-color: #1b2845;
-        border-color: #1b2845;
-    }
-    .img-fluid{
+     .img-fluid{
         max-width:15em;
         max-height: 15em;
         height: auto;
@@ -30,14 +17,15 @@
             <img class="card-img-top img-fluid" src="{{ topic.topic_logo.url }}"
                    /><br/><br/>
             <p class="card-text">{{ topic.desc }}</p><br/>
-            <a href="#" class="btn btn-outline-secondary" id="follow-btn">Follow</a>
+            <a href="#" class="btn btn-outline-secondary follow-btn">Follow</a>
         </div>
          </div>
     <div class="mt-3">
         {% for ques in topic.question_set.all %}
         <div class="card mb-1">
                 <div class="card-body">
-                        <h5>{{ ques.question }}</h5>
+                    <!--{%url 'FeQta:question_detail' ques.slug%}-->
+                    <h5><a href="{{ques.get_absolute_url}}">{{ ques.question }}</a></h5>
                         <p>{{ ques.desc }}</p>
                 </div>
         </div>

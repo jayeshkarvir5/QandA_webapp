@@ -26,12 +26,12 @@ class Topic(models.Model):
         return self.name
 
 
-def topic_pre_save_receiver(sender, instance, **kwargs):
+def slug_pre_save_receiver(sender, instance, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
 
 
-pre_save.connect(topic_pre_save_receiver, Topic)
+pre_save.connect(slug_pre_save_receiver, Topic)
 
 
 class Question(models.Model):
@@ -40,21 +40,30 @@ class Question(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     question = models.TextField()
     desc = models.TextField(null=True, blank=True)
+    slug = models.SlugField(null=True, blank=True)
 
-    # def get_absolute_url(self):
-    #     return reverse('FeQta:topics', kwargs={})
+    def get_absolute_url(self):
+        return reverse('FeQta:question_detail', kwargs={'slug': self.slug})
+    #     return reverse('FeQta:question_detail', kwargs={'slug1':self.topic.slug, 'slug2': self.slug})
 
     def __str__(self):
         return self.question
+
+    @property
+    def title(self):
+        return self.pk
+
+
+pre_save.connect(slug_pre_save_receiver, Question)
 
 
 class Answer(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.TextField(max_length=20000)
-    likes = models.IntegerField()
-    needs_improvement = models.IntegerField()
-    dislikes = models.IntegerField()
+    likes = models.IntegerField(null=True, blank=True)
+    needs_improvement = models.IntegerField(null=True, blank=True)
+    dislikes = models.IntegerField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

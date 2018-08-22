@@ -3,11 +3,6 @@
 {% block title %}Create Topic{% endblock %}
 
 {% block body %}
-    <style>
-      .card{
-            font-family: 'Merriweather', serif;
-        }
-    </style>
      <div class="card" >
        <div class="card-body">
          <h4 class="card-title text-center">Add a Topic</h4><br />
@@ -18,9 +13,7 @@
            {% csrf_token %}
            {% include "FeQta/form_template.html" %}
            <div class="form-group text-center">
-             <div class="col-sm-offset-2 col-sm-10">
-               <button type="submit" class="btn btn-success">Submit</button>
-             </div>
+               <button type="submit" class="btn submit-btn">Submit</button>
            </div>
          </form>
        </div>

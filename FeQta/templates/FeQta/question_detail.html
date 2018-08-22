@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+
+{% block title %}Question{% endblock %}
+<!--add follow and delete btn?-->
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">{{ question.question }}</h3><br/>
+            <p class="card-text">{{ question.desc }}</p><br/>
+            <p class="card-text">asked by <i>{{ question.owner}}</i></p>
+            <p class="card-text">Related to <a href="{{question.topic.get_absolute_url}}">{{question.topic.name}}</a> </p>
+            <p class="card-text"><a href="#" class="text-primary"><i class="fas fa-plus"></i>&nbsp;Follow</a>&nbsp;&nbsp;&nbsp;
+                <a href="#" class="text-primary"><i class="far fa-edit"></i>&nbsp;Answer</a>
+        </div>
+    </div>
+    <div class="mt-3">
+        {% for ans in question.answer_set.all %}
+        <div class="card mb-1">
+                <div class="card-body">
+                    <h5>{{ ans.answer }}</h5>
+                        <p>Like&nbsp;<i class="far fa-thumbs-up"></i>{{ ans.likes }}&nbsp;&nbsp;Needs_improvement&nbsp;<i class="fas fa-star-half-alt"></i>{{ans.needs_improvement}}&nbsp;&nbsp;
+                        Dislike&nbsp;<i class="far fa-thumbs-down"></i>{{ans.dislikes}}</p>
+                    <p>Answered by <i>{{ans.owner}}</i></p>
+                    <p>{{ans.timestamp}}</p>
+                </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

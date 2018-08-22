@@ -1,35 +1,35 @@
 <div class="fixed-top">
 <nav class="navbar navbar-expand-lg navbar-dark ">
-    <a class="navbar-brand ml-5" href="#"  >FeQta</a>
+    <a class="navbar-brand ml-5" href="{% url 'FeQta:home' %}" >FeQta</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse ml-sm-5" id="navbarToggler">
     <ul class="navbar-nav mr-auto  mt-lg-0 ">
-      <li class="nav-item active mr-3">
-        <a class="nav-link" href="{% url 'FeQta:home' %}"><i class="fas fa-clipboard-list"></i> Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item mr-3" >
+        <a class="nav-link active" href="{% url 'FeQta:home' %}" id="home-link"><i class="fas fa-clipboard-list"></i> Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item mr-3">
-        <a class="nav-link" href="{% url 'FeQta:answers' %}"><i class="fas fa-pencil-alt"></i> Answer</a>
+      <li class="nav-item mr-3" >
+        <a class="nav-link" href="{% url 'FeQta:answers' %}" id="answer-link"><i class="fas fa-pencil-alt"></i> Answer</a>
       </li>
-         <li class="nav-item mr-3">
-        <a class="nav-link" href="{% url 'FeQta:ranks' %}"><i class="fas fa-crown"></i> Ranks</a>
+         <li class="nav-item mr-3" >
+        <a class="nav-link" href="{% url 'FeQta:ranks' %}" id="rank-link"><i class="fas fa-crown"></i> Ranks</a>
       </li>
-        <li class="nav-item mr-3">
+        <li class="nav-item mr-3" >
             <a class="nav-link" data-toggle="collapse" href="#CollapseSearch" role="button"
-               aria-expanded="false" aria-controls="CollapseSearch">
+               aria-expanded="false" aria-controls="CollapseSearch" id="search-link">
                 <i class="fas fa-search"></i> Search</a>
         </li>
     </ul>
       <ul class="navbar-nav ml-auto ">
-          <li class="nav-item mr-3">
-              <a class="nav-link" href="{% url 'FeQta:topics' %}"><i class="fas fa-rocket"></i> Topics</a>
+          <li class="nav-item mr-3" >
+              <a class="nav-link" href="{% url 'FeQta:topic_list' %}" id="topic-link"><i class="fas fa-rocket"></i> Topics</a>
           </li>
-          <li class="nav-item mr-3">
-              <a class="nav-link" href="{% url 'FeQta:question_create' %}"><i class="fas fa-plus"></i> Ask</a>
+          <li class="nav-item mr-3" >
+              <a class="nav-link" href="{% url 'FeQta:question_create' %}" id="ask-link"><i class="fas fa-plus"></i> Ask</a>
           </li>
-          <li class="nav-item mr-3">
-              <a class="nav-link" href="{% url 'FeQta:profile' %}"><i class="fas fa-user-alt"></i> Profile</a>
+          <li class="nav-item mr-3" >
+              <a class="nav-link" href="{% url 'FeQta:profile' %}" id="profile-link"><i class="fas fa-user-alt"></i> Profile</a>
           </li>
           <li class="nav-item mr-5">
               <a href="{% url 'FeQta:login' %}"><button class="btn btn-outline-warning" type="button">Get Started</button></a>
@@ -40,16 +40,104 @@
     <div class="collapse " id="CollapseSearch">
       <div class="card card-body">
        <form class="form-inline">
-              <!--<li class="nav-item ">-->
+                <input type="search" class="form-control badge-pill " placeholder="FeQta at your service"
+                       aria-label="Search" aria-describedby="button-addon2" style="width:80%" >
+                <!--<li class="nav-item ">-->
                   <!--<input class="form-control mr-sm-2 ml-2 badge-pill" type="search"#}-->
                    <!--placeholder="Search" aria-label="Search" style="width:350px">-->
               <!--</li>-->
             <!--<li class="nav-item" >-->
                 <!--<button class="btn btn-outline-danger ml-3" type="submit">Search</button>#}-->
             <!--</li>-->
-                <input type="search" class="form-control badge-pill " placeholder="FeQta at your service"
-                       aria-label="Search" aria-describedby="button-addon2" style="width:80%" >
        </form>
        </div>
     </div>
   </div>
+<script>
+
+   hl=document.getElementById("home-link");
+   al=document.getElementById("answer-link");
+   rl=document.getElementById("rank-link");
+   sl=document.getElementById("search-link");
+   tl=document.getElementById("topic-link");
+   askl=document.getElementById("ask-link");
+   pl=document.getElementById("profile-link");
+
+   hl.addEventListener("click",hlfunc);
+
+   function hlfunc() {
+      // inactive();
+       hl.classList.add("active");
+   }
+   al.addEventListener("click",alfunc);
+
+   function alfunc() {
+       //inactive();
+       al.classList.add("active");
+   }
+
+   rl.addEventListener("click",rlfunc);
+   sl.addEventListener("click",slfunc);
+   tl.addEventListener("click",tlfunc);
+   askl.addEventListener("click",asklfunc);
+   pl.addEventListener("click",plfunc);
+
+   // function activefunc(c){
+   //     inactive();
+   //     switch (c){
+   //         case 1:hl.classList.add("active");
+   //                break;
+   //         case 2:al.classList.add("active");
+   //                break;
+   //         case 3:rl.classList.add("active");
+   //                break;
+   //         case 4:sl.classList.add("active");
+   //                break;
+   //         case 5:tl.classList.add("active");
+   //                break;
+   //         case 6:askl.classList.add("active");
+   //                break;
+   //         case 7:pl.classList.add("active");
+   //                break;
+   //         default:hl.classList.add("active");
+   //     }
+   // }
+   // function inactive(){
+   //     hl.classList.remove("active");
+   //     al.classList.remove("active");
+   //     rl.classList.remove("active");
+   //     sl.classList.remove("active");
+   //     tl.classList.remove("active");
+   //     askl.classList.remove("active");
+   //     pl.classList.remove("active");
+   // }
+   //
+
+   //
+
+   //
+   // function rlfunc() {
+   //     //inactive();
+   //     rl.classList.add("active");
+   // }
+   //
+   // function slfunc() {
+   //     //inactive();
+   //     sl.classList.add("active");
+   // }
+   //
+   // function tlfunc() {
+   //     //inactive();
+   //     tl.classList.add("active");
+   // }
+   //
+   // function asklfunc() {
+   //     //inactive();
+   //     askl.classList.add("active");
+   // }
+   //
+   // function plfunc() {
+   //     //inactive();
+   //     pl.classList.add("active");
+   // }
+</script>

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question,Topic
+from .models import Question,Topic,Answer
 
 class QuestionCreateForm(forms.ModelForm):
     class Meta:
@@ -16,4 +16,10 @@ class QuestionCreateForm(forms.ModelForm):
             raise forms.ValidationError('Not a valid question')
         return ques
 
-
+class AnswerCreateForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = [
+            'question',
+            'answer',
+        ]

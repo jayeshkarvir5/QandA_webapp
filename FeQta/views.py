@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Topic, Question
+from .models import Topic, Question, Answer
 from django.urls import reverse_lazy
-from .forms import QuestionCreateForm
+from .forms import QuestionCreateForm, AnswerCreateForm
 # read about django anonymous user
+# do not allow user to like his own answer
+# use default names to avoid template_name
+# no need for ans detail and ans list?
+# def get_query_set
+#   return model.objects.filter(user=self.request.user)
 
 
 class HomeView(TemplateView):
@@ -24,18 +28,15 @@ class HomeView(TemplateView):
         return context
 
 
-class TopicListView(generic.ListView):
-    template_name = 'FeQta/topics.html'
+class TopicListView(ListView):
     context_object_name = 'topics'
 
     def get_queryset(self):
         return Topic.objects.all()
 
 
-class TopicDetailView(generic.DetailView):
-    template_name = 'FeQta/topic_detail.html'
+class TopicDetailView(DetailView):
     model = Topic
-
 
 class TopicCreateView(CreateView):
     model = Topic
@@ -46,8 +47,26 @@ class TopicCreateView(CreateView):
 class QuestionCreateView(LoginRequiredMixin, CreateView):
     model = Question
     form_class = QuestionCreateForm
-    login_url = '/FeQta/get-started/'
-    success_url = '/FeQta/topics/'
+    login_url = reverse_lazy('FeQta:login')
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.owner = self.request.user
+        return super(QuestionCreateView, self).form_valid(form)
+
+
+class QuestionDetailView(DetailView):
+    model = Question
+
+    def get_query_set(self):
+        return Question.objects.filter(user=self.request.user)
+    # slug_url_kwarg = 'slug2'
+
+
+class AnswerCreateView(LoginRequiredMixin, CreateView):
+    model = Answer
+    form_class = AnswerCreateForm
+    login_url = reverse_lazy('FeQta:login')
 
     def form_valid(self, form):
         instance = form.save(commit=False)
