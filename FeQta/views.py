@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.views.generic.base import TemplateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Topic, Question, Answer
 from django.urls import reverse_lazy
@@ -14,7 +13,7 @@ from .forms import QuestionCreateForm, AnswerCreateForm
 #   return model.objects.filter(user=self.request.user)
 
 
-class HomeView(TemplateView):
+class HomeView(TemplateView):  # LoginRequiredMixin,
     template_name = 'FeQta/home.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -37,6 +36,7 @@ class TopicListView(ListView):
 
 class TopicDetailView(DetailView):
     model = Topic
+
 
 class TopicCreateView(CreateView):
     model = Topic
@@ -71,11 +71,40 @@ class AnswerCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.owner = self.request.user
-        return super(QuestionCreateView, self).form_valid(form)
+        return super(AnswerCreateView, self).form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super(AnswerCreateView, self).get_form_kwargs()
+        # self.question = Question.objects.filter(slug=self.slug_url_kwarg)
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(AnswerCreateView, self).get_context_data(*args, **kwargs)
+        context['head'] = 'Write answer'
+        context['title'] = 'Create-Answer'
+        return context
 
 
-class AnswersView(TemplateView):
+class AnswerUpdateView(LoginRequiredMixin, UpdateView):
+    model = Answer
+    form_class = AnswerCreateForm
+    login_url = reverse_lazy('FeQta:login')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(AnswerUpdateView, self).get_context_data(*args, **kwargs)
+        context['head'] = 'Update your answer'
+        context['title'] = 'Update-answer'
+        return context
+
+
+class AnswersView(ListView):
     template_name = 'FeQta/answers.html'
+    context_object_name = 'qs'
+
+    def get_queryset(self):
+        qs = Question.objects.all()  # filter(owner=self.request.user)
+        return qs
 
 
 class RanksView(TemplateView):

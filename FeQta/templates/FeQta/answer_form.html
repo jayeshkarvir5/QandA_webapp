@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="card" >
+       <div class="card-body">
+         <h4 class="card-title text-center">{{ head }}</h4><br />
+         {% if error_message %}
+          <p>{{ error_message }}</p>
+          {%endif%}
+         <form action="" method="post" enctype="multipart/form-data">
+           {% csrf_token %}
+           {% include "FeQta/form_template.html" %}
+           <div class="form-group text-center">
+               <button type="submit" class="btn submit-btn">Submit</button>
+           </div>
+         </form>
+       </div>
+     </div>
+{% endblock %}

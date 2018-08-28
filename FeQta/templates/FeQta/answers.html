@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 
 
-{% block title %}Answers{% endblock %}
+{% block title %}Answer{% endblock %}
 
 {% block body %}
-<p>Answers!</p>
+{% for ques in qs %}
+        <div class="card mb-1">
+                <div class="card-body">
+                    <!--{%url 'FeQta:question_detail' ques.slug%}-->
+                    <h5><a href="{{ques.get_absolute_url}}">{{ ques.question }}</a></h5>
+                        <p>{{ ques.desc }}</p>
+                </div>
+        </div>
+        {% endfor %}
 {% endblock %}

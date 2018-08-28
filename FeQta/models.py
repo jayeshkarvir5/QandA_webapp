@@ -11,7 +11,7 @@ User = settings.AUTH_USER_MODEL
 class Topic(models.Model):
     name = models.CharField(max_length=100)
     desc = models.CharField(max_length=300, blank=True)
-    followers = models.IntegerField(null=True, blank=True)
+    followers = models.IntegerField(null=True, blank=True, default=0)
     topic_logo = models.FileField()
     slug = models.SlugField(null=True, blank=True)
 
@@ -41,7 +41,7 @@ class Question(models.Model):
     question = models.TextField()
     desc = models.TextField(null=True, blank=True)
     slug = models.SlugField(null=True, blank=True)
-
+    follow = models.IntegerField(null=True, blank=True, default=0)
     def get_absolute_url(self):
         return reverse('FeQta:question_detail', kwargs={'slug': self.slug})
     #     return reverse('FeQta:question_detail', kwargs={'slug1':self.topic.slug, 'slug2': self.slug})
@@ -61,15 +61,17 @@ class Answer(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.TextField(max_length=20000)
-    likes = models.IntegerField(null=True, blank=True)
-    needs_improvement = models.IntegerField(null=True, blank=True)
-    dislikes = models.IntegerField(null=True, blank=True)
+    likes = models.IntegerField(null=True, blank=True, default=0)
+    needs_improvement = models.IntegerField(null=True, blank=True, default=0)
+    dislikes = models.IntegerField(null=True, blank=True, default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering=['-updated', '-timestamp']
 
+    def get_absolute_url(self):
+        return reverse('FeQta:question_detail', kwargs={'slug': self.question.slug})
 
 # contents = models.Textfield(help_text="Seperate by comma")
 # def get_contents(self):

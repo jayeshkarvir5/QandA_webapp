@@ -11,7 +11,7 @@
             <p class="card-text">asked by <i>{{ question.owner}}</i></p>
             <p class="card-text">Related to <a href="{{question.topic.get_absolute_url}}">{{question.topic.name}}</a> </p>
             <p class="card-text"><a href="#" class="text-primary"><i class="fas fa-plus"></i>&nbsp;Follow</a>&nbsp;&nbsp;&nbsp;
-                <a href="#" class="text-primary"><i class="far fa-edit"></i>&nbsp;Answer</a>
+                <a href="{% url 'FeQta:answer_create' question.slug %}" class="text-primary"><i class="far fa-edit"></i>&nbsp;Answer</a>
         </div>
     </div>
     <div class="mt-3">
