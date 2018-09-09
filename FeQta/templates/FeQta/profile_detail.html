@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block body %}
+    <div class="card text-center " style="width: 60%;margin-left:20%; ">
+        <div class="card-body">
+            <h3 class="card-title">{{ user.username }}</h3><br/>
+            <a href="#" class="btn btn-outline-secondary follow-btn">Follow</a>
+        </div>
+    </div>
+    <div class="mt-3">
+        <h4>Answers:</h4>
+        {% for ans in user.answer_set.all %}
+        <div class="card mb-1">
+                <div class="card-body">
+                    <p>{{ans.question.question}}</p>
+                    <p>{{ ans.answer }}</p>
+                        <small>Like&nbsp;<i class="far fa-thumbs-up"></i>{{ ans.likes }}&nbsp;&nbsp;Needs_improvement&nbsp;<i class="fas fa-star-half-alt"></i>{{ans.needs_improvement}}&nbsp;&nbsp;
+                        Dislike&nbsp;<i class="far fa-thumbs-down"></i>{{ans.dislikes}}</small><br/>
+                    <small>Answered by &nbsp;<i>{{ans.owner}}</i>&nbsp;
+                        {{ans.timestamp}}</small>
+                </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mt-3">
+        <h4>Questions asked:</h4>
+        {% for ques in user.question_set.all %}
+        <div class="card mb-1">
+                <div class="card-body">
+                    <!--{%url 'FeQta:question_detail' ques.slug%}-->
+                    <h5><a href="{{ques.get_absolute_url}}">{{ ques.question }}</a></h5>
+                        <p>{{ ques.desc }}</p>
+                </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+

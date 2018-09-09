@@ -4,10 +4,13 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<p>Displaying demo data</p> <br/>
-    {% for i in demo_data %}
-        <p>{{ i }}</p> <br/>
-    {% endfor %}
-    <p> {{ num }} is another context var</p>
-
+    {% if error %}
+        <p>{{ error }}</p>
+    {% else %}
+        <p>Displaying demo data</p> <br/>
+            {% for i in demo_data %}
+                <p>{{ i }}</p> <br/>
+            {% endfor %}
+            <p> {{ num }} is another context var</p>
+    {% endif %}
 {% endblock %}

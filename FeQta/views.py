@@ -1,16 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from .models import Topic, Question, Answer
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .forms import QuestionCreateForm, AnswerCreateForm
 # read about django anonymous user
 # do not allow user to like his own answer
 # use default names to avoid template_name
 # no need for ans detail and ans list?
+# take care of user updating from url
+# use &nbsp; for spaces
 # def get_query_set
 #   return model.objects.filter(user=self.request.user)
+
+
+User = get_user_model()
 
 
 class HomeView(TemplateView):  # LoginRequiredMixin,
@@ -22,7 +28,8 @@ class HomeView(TemplateView):  # LoginRequiredMixin,
         demo_data = [1000, 2000, 3000, 4000]
         context = {
             "num": num,
-            "demo_data": demo_data
+            "demo_data": demo_data,
+            "error": None,
         }
         return context
 
@@ -71,11 +78,19 @@ class AnswerCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.owner = self.request.user
-        return super(AnswerCreateView, self).form_valid(form)
+        try:
+            # question = get_object_or_404(Question, slug=self.kwargs.get('slug'))
+            question = Question.objects.get(slug=self.kwargs.get('slug'))
+        except Question.DoesNotExist:
+            return HttpResponse('<h3>Question not found</h3>')
+        instance.question = question
+        if instance.owner == instance.question.owner:
+            return HttpResponse('<h3>User is answering the question they asked</h3>')
+        else:
+            return super(AnswerCreateView, self).form_valid(form)
 
     def get_form_kwargs(self):
         kwargs = super(AnswerCreateView, self).get_form_kwargs()
-        # self.question = Question.objects.filter(slug=self.slug_url_kwarg)
         kwargs['user'] = self.request.user
         return kwargs
 
@@ -90,6 +105,13 @@ class AnswerUpdateView(LoginRequiredMixin, UpdateView):
     model = Answer
     form_class = AnswerCreateForm
     login_url = reverse_lazy('FeQta:login')
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        if instance.owner != self.request.user:
+            return HttpResponse('<h3>Cannot edit as you have not answered this question</h3>')
+        else:
+            return super(AnswerCreateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super(AnswerUpdateView, self).get_context_data(*args, **kwargs)
@@ -107,6 +129,16 @@ class AnswersView(ListView):
         return qs
 
 
+class ProfileDetailView(DetailView):
+    template_name = 'FeQta/profile_detail.html'
+    def get_object(self):
+        username = self.kwargs.get('username')
+        if username is None:
+            raise Http404
+        return get_object_or_404(User, username__iexact=username, is_active=True)
+
+
+
 class RanksView(TemplateView):
     template_name = 'FeQta/ranks.html'
 
@@ -121,6 +153,14 @@ class ProfileView(TemplateView):
 # from django.contrib.auth.decorators import login_required
 # for FBV
 # from django.views.generic import View
+
+# def get_initial(self):
+#     question = get_object_or_404(Question, slug=self.kwargs.get('slug'))
+#     question = Question.objects.filter(slug=self.kwargs.get('slug'))
+#     return {
+#         'question': question,
+#     }
+
 # def question_create_view(request):
 #     form = QuestionCreateForm(request.POST or None)
 #     errors = None

@@ -22,7 +22,7 @@ class AnswerCreateForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = [
-            'question',
+            # 'question',
             'answer',
         ]
 
@@ -30,6 +30,3 @@ class AnswerCreateForm(forms.ModelForm):
         print(user)
         super(AnswerCreateForm, self).__init__(*args, **kwargs)
         print(kwargs)
-        # self.fields['question'].queryset = Question.objects.filter(slug=1)
-        # self.fields['question'].queryset = Question.objects.filter(slug=sl)
-        # self.fields['question'].queryset = Question.objects.filter(owner=user)
