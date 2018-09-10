@@ -7,9 +7,11 @@
     <div class="card">
         <div class="card-body">
             <h3 class="card-title">{{ question.question }}</h3><br/>
-            <p class="card-text">{{ question.desc }}</p><br/>
+            {% if ques.desc %}
+            <p class="card-text"><b>Description: </b>{{ question.desc }}</p><br/>
+            {% endif %}
             <p class="card-text">asked by <i>{{ question.owner}}</i></p>
-            <p class="card-text">Related to <a href="{{question.topic.get_absolute_url}}">{{question.topic.name}}</a> </p>
+            <p class="card-text">Related to topic: <a href="{{question.topic.get_absolute_url}}">{{question.topic.name}}</a> </p>
             <p class="card-text"><a href="#" class="text-primary"><i class="fas fa-plus"></i>&nbsp;Follow</a>&nbsp;&nbsp;&nbsp;
                 <a href="{% url 'FeQta:answer_create' question.slug %}" class="text-primary"><i class="far fa-edit"></i>&nbsp;Answer</a>
         </div>
@@ -18,11 +20,11 @@
         {% for ans in question.answer_set.all %}
         <div class="card mb-1">
                 <div class="card-body">
-                    <h5>{{ ans.answer }}</h5>
-                        <p>Like&nbsp;<i class="far fa-thumbs-up"></i>{{ ans.likes }}&nbsp;&nbsp;Needs_improvement&nbsp;<i class="fas fa-star-half-alt"></i>{{ans.needs_improvement}}&nbsp;&nbsp;
-                        Dislike&nbsp;<i class="far fa-thumbs-down"></i>{{ans.dislikes}}</p>
-                    <p>Answered by <i>{{ans.owner}}</i></p>
-                    <p>{{ans.timestamp}}</p>
+                    <p class="card-text">{{ ans.answer }}</p>
+                            <small>Like&nbsp;<i class="far fa-thumbs-up"></i>{{ ans.likes }}&nbsp;&nbsp;Needs_improvement&nbsp;<i class="fas fa-star-half-alt"></i>{{ans.needs_improvement}}&nbsp;&nbsp;
+                            Dislike&nbsp;<i class="far fa-thumbs-down"></i>{{ans.dislikes}}</small><br/>
+                        <small>Answered by &nbsp;<i>{{ans.owner}}</i>&nbsp;
+                            {{ans.timestamp}}</small>
                 </div>
         </div>
         {% endfor %}

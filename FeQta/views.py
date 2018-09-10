@@ -14,6 +14,7 @@ from .forms import QuestionCreateForm, AnswerCreateForm
 # use &nbsp; for spaces
 # def get_query_set
 #   return model.objects.filter(user=self.request.user)
+# provide update button in profile for answers
 
 
 User = get_user_model()
@@ -131,12 +132,49 @@ class AnswersView(ListView):
 
 class ProfileDetailView(DetailView):
     template_name = 'FeQta/profile_detail.html'
+
     def get_object(self):
         username = self.kwargs.get('username')
         if username is None:
             raise Http404
         return get_object_or_404(User, username__iexact=username, is_active=True)
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProfileDetailView, self).get_context_data(*args, **kwargs)
+        user = context['user']
+        query = self.request.GET.get('q')
+        qs = Question.objects.filter(owner=user)
+        qs2 = Answer.objects.filter(owner=user)
+        if query:
+            qs = qs.search(query) # only owner=user questions
+            # qs = Question.objects.search(query) all questions
+        if qs:
+            context['questions'] = qs
+        if qs2:
+            context['answers'] = qs2
+        return context
+
+
+class SearchListView(ListView):
+    template_name = "FeQta/search.html"
+    context_object_name = 'topics'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Topic.objects.search(query)
+        return None
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(SearchListView, self).get_context_data(*args, **kwargs)
+        query = self.request.GET.get('q')
+        if query:
+            qs = Question.objects.search(query)  # all questions
+            # qs2 = User.objects.search(query)
+            qs2 = User.objects.all()
+            context['questions'] = qs
+            context['users'] = qs2
+        return context
 
 
 class RanksView(TemplateView):

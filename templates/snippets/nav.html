@@ -1,58 +1,45 @@
 <div class="fixed-top">
-<nav class="navbar navbar-expand-lg navbar-dark ">
-    <a class="navbar-brand ml-5" href="{% url 'FeQta:home' %}" >Fe<span class="text-warning">Q</span>t<span class="text-warning">A</span></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse ml-sm-5" id="navbarToggler">
-    <ul class="navbar-nav mr-auto  mt-lg-0 ">
-      <li class="nav-item mr-3" >
-        <a class="nav-link active" href="{% url 'FeQta:home' %}" id="home-link"><i class="fas fa-clipboard-list"></i> Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item mr-3" >
-        <a class="nav-link" href="{% url 'FeQta:answers' %}" id="answer-link"><i class="fas fa-pencil-alt"></i> Answer</a>
-      </li>
-         <li class="nav-item mr-3" >
-        <a class="nav-link" href="{% url 'FeQta:ranks' %}" id="rank-link"><i class="fas fa-crown"></i> Ranks</a>
-      </li>
-        <li class="nav-item mr-3" >
-            <a class="nav-link" data-toggle="collapse" href="#CollapseSearch" role="button"
-               aria-expanded="false" aria-controls="CollapseSearch" id="search-link">
-                <i class="fas fa-search"></i> Search</a>
-        </li>
-    </ul>
-      <ul class="navbar-nav ml-auto ">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+        <a class="navbar-brand ml-5" href="{% url 'FeQta:home' %}" >Fe<span class="text-warning">Q</span>t<span class="text-warning">A</span></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse ml-sm-5" id="navbarToggler">
+        <ul class="navbar-nav mr-auto  mt-lg-0 ">
           <li class="nav-item mr-3" >
-              <a class="nav-link" href="{% url 'FeQta:topic_list' %}" id="topic-link"><i class="fas fa-rocket"></i> Topics</a>
+            <a class="nav-link active" href="{% url 'FeQta:home' %}" id="home-link">
+                <i class="fas fa-clipboard-list"></i> Home</a>
           </li>
           <li class="nav-item mr-3" >
-              <a class="nav-link" href="{% url 'FeQta:question_create' %}" id="ask-link"><i class="fas fa-plus"></i> Ask</a>
+            <a class="nav-link" href="{% url 'FeQta:answers' %}" id="answer-link">
+                <i class="fas fa-pencil-alt"></i> Answer</a>
           </li>
           <li class="nav-item mr-3" >
-              <a class="nav-link" href="{% url 'FeQta:profile' %}" id="profile-link"><i class="fas fa-user-alt"></i> Profile</a>
+            <a class="nav-link" href="{% url 'FeQta:ranks' %}" id="rank-link">
+                <i class="fas fa-crown"></i> Ranks</a>
           </li>
-          <li class="nav-item mr-5">
-              <a href="{% url 'FeQta:login' %}"><button class="btn btn-outline-warning" type="button">Get Started</button></a>
+          <li class="nav-item mr-3" >
+             <a class="nav-link"  href="{% url 'FeQta:search' %}" id="search-link">
+                 <i class="fas fa-search"></i> Search</a>
           </li>
-           </ul>
-  </div>
-</nav>
-    <div class="collapse " id="CollapseSearch">
-      <div class="card card-body">
-       <form class="form-inline">
-                <input type="search" class="form-control badge-pill " placeholder="FeQta at your service"
-                       aria-label="Search" aria-describedby="button-addon2" style="width:80%" >
-                <!--<li class="nav-item ">-->
-                  <!--<input class="form-control mr-sm-2 ml-2 badge-pill" type="search"#}-->
-                   <!--placeholder="Search" aria-label="Search" style="width:350px">-->
-              <!--</li>-->
-            <!--<li class="nav-item" >-->
-                <!--<button class="btn btn-outline-danger ml-3" type="submit">Search</button>#}-->
-            <!--</li>-->
-       </form>
-       </div>
-    </div>
-  </div>
+        </ul>
+          <ul class="navbar-nav ml-auto ">
+              <li class="nav-item mr-3" >
+                  <a class="nav-link" href="{% url 'FeQta:topic_list' %}" id="topic-link"><i class="fas fa-rocket"></i> Topics</a>
+              </li>
+              <li class="nav-item mr-3" >
+                  <a class="nav-link" href="{% url 'FeQta:question_create' %}" id="ask-link"><i class="fas fa-plus"></i> Ask</a>
+              </li>
+              <li class="nav-item mr-3" >
+                  <a class="nav-link" href="{% url 'FeQta:profile' %}" id="profile-link"><i class="fas fa-user-alt"></i> Profile</a>
+              </li>
+              <li class="nav-item mr-5">
+                  <a href="{% url 'FeQta:login' %}"><button class="btn btn-outline-warning" type="button">Get Started</button></a>
+              </li>
+               </ul>
+      </div>
+    </nav>
+</div>
 <script>
 
    hl=document.getElementById("home-link");

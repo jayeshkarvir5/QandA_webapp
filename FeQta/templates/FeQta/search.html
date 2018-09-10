@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+
+{% block title %}Search{% endblock %}
+
+{% block nav2 %}
+    <div class="card card-body" style="margin-top: 4%">
+       <form class="form-inline" method="get" action=".">
+                <input type="search" class="form-control badge-pill "
+                       placeholder="FeQta at your service"
+                       style="width:80%" name="q">
+       </form>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <h4>Questions :</h4>
+    {% if questions %}
+            {% for ques in questions %}
+                <div class="card mb-1">
+                    <div class="card-body">
+                         <!--{%url 'FeQta:question_detail' ques.slug%}-->
+                        <h5><a class="text-dark" href="{{ques.get_absolute_url}}">{{ ques.question }}</a></h5>
+                        {% if ques.desc %}
+                            <p class="card-text"><b>Description: </b>{{ ques.desc }}</p>
+                        {% endif %}
+                        <p class="card-text">asked by <i>{{ ques.owner}}</i></p>
+                        <!-- {{ques.topic.get_absolute_url}} -->
+                        <p class="card-text">Related to Topic: <a href="{{ques.topic.get_absolute_url}}">{{ques.topic.name}}</a> </p>
+                    </div>
+                </div>
+            {% endfor %}
+    {% else %}
+            <p class='lead'>No Questions Found</p>
+    {% endif %}
+    <h4>Topics :</h4>
+    {% if topics %}
+        {% for topic in topics %}
+            <div class="card mb-1">
+                <div class="card-body">
+                    <p class="card-title"><img src="{{ topic.topic_logo.url }}"
+                        class="rounded float-left mr-2 img-thumbnail img-fluid" style="width:5em;height:5em">
+                        <a class="nav-link" style="color:#1b2845;"
+                           href="{{ topic.get_absolute_url }}">{{ topic }}</a></p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class='lead'>No Topics Found</p>
+    {% endif %}
+    <h4>Profiles :</h4>
+    {% if users %}
+            {% for user in users %}
+            <div class="card text-center ">
+                <div class="card-body">
+                        <h3 class="card-title">{{ user.username }}</h3><br/>
+                        <a href="#" class="btn btn-outline-secondary follow-btn">Follow</a>
+                </div>
+            </div>
+            {% endfor %}
+    {% else %}
+        <p class='lead'>No Profiles Found</p>
+    {% endif %}
+{% endblock %}
