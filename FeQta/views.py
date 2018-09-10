@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from .models import Topic, Question, Answer
 from django.urls import reverse_lazy, reverse
 from .forms import QuestionCreateForm, AnswerCreateForm
+from django.db.models import Q
 # read about django anonymous user
 # do not allow user to like his own answer
 # use default names to avoid template_name
@@ -170,8 +171,10 @@ class SearchListView(ListView):
         query = self.request.GET.get('q')
         if query:
             qs = Question.objects.search(query)  # all questions
-            # qs2 = User.objects.search(query)
-            qs2 = User.objects.all()
+            qs2 = User.objects.filter(
+                Q(username__icontains=query)|
+                Q(username__iexact=query)
+            )
             context['questions'] = qs
             context['users'] = qs2
         return context
