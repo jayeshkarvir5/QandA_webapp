@@ -53,7 +53,7 @@
             {% for user in users %}
             <div class="card text-center ">
                 <div class="card-body">
-                        <h3 class="card-title">{{ user.username }}</h3><br/>
+                    <h3 class="card-title"><a style="color: #1b2845;" href="{% url 'FeQta:profile_detail' user.username %}">{{ user.username }}</a></h3><br/>
                         <a href="#" class="btn btn-outline-secondary follow-btn">Follow</a>
                 </div>
             </div>

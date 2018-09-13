@@ -16,6 +16,7 @@ from django.db.models import Q
 # def get_query_set
 #   return model.objects.filter(user=self.request.user)
 # provide update button in profile for answers
+# work on answer views and comment views
 
 
 User = get_user_model()

@@ -8,7 +8,7 @@
         <div class="card mb-1">
                     <div class="card-body">
                          <!--{%url 'FeQta:question_detail' ques.slug%}-->
-                        <h5><a class="text-dark" href="{{ques.get_absolute_url}}">{{ ques.question }}</a></h5>
+                        <h5><a href="{{ques.get_absolute_url}}">{{ ques.question }}</a></h5>
                         {% if ques.desc %}
                             <p class="card-text"><b>Description: </b>{{ ques.desc }}</p>
                         {% endif %}
