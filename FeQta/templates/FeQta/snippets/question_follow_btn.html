@@ -1,0 +1,9 @@
+{% if request.user.is_authenticated and question.owner != request.user %}
+    <form class='form' method='POST' action='{% url "FeQta:question_follow" question.slug%}'> {% csrf_token %}
+        <input type='hidden' name='topicname' value='{% if question.slug %}{{ question.slug }}{% else %}question-byjayeshkarvir53{% endif %}'/>
+        <button class='btn {% if is_following %}btn-default{% else %}btn-outline-secondary follow-btn{% endif %}'>
+        {% if is_following %}Unfollow{% else %}<i class="fas fa-plus"></i>Follow{% endif %}</button>
+        <a href="{%if ans_cond%}{% url 'FeQta:answer_update' ans.slug %}{%else%}{% url 'FeQta:answer_create' question.slug %}{%endif%}" class=" btn
+        btn-outline-secondary follow-btn"><i class="far fa-edit"></i>&nbsp;{%if ans_cond%}Edit{%else%}Answer{%endif%}</a>
+</form>
+{% endif %}

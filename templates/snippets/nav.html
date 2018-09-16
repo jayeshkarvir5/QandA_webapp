@@ -31,7 +31,8 @@
                   <a class="nav-link" href="{% url 'FeQta:question_create' %}" id="ask-link"><i class="fas fa-plus"></i> Ask</a>
               </li>
               <li class="nav-item mr-3" >
-                  <a class="nav-link" href="{% url 'FeQta:profile' %}" id="profile-link"><i class="fas fa-user-alt"></i> Profile</a>
+                  <a class="nav-link" href="{% if request.user.is_authenticated %}{% url 'FeQta:profile_detail' request.user.username%}
+                  {% else %}{% url 'FeQta:login' %}{% endif %}" id="profile-link"><i class="fas fa-user-alt"></i> Profile</a>
               </li>
               <li class="nav-item mr-5">
                   <a href="{% url 'FeQta:login' %}"><button class="btn btn-outline-warning" type="button">Get Started</button></a>
@@ -40,91 +41,4 @@
       </div>
     </nav>
 </div>
-<script>
 
-   hl=document.getElementById("home-link");
-   al=document.getElementById("answer-link");
-   rl=document.getElementById("rank-link");
-   sl=document.getElementById("search-link");
-   tl=document.getElementById("topic-link");
-   askl=document.getElementById("ask-link");
-   pl=document.getElementById("profile-link");
-
-   hl.addEventListener("click",hlfunc);
-
-   function hlfunc() {
-      // inactive();
-       hl.classList.add("active");
-   }
-   al.addEventListener("click",alfunc);
-
-   function alfunc() {
-       //inactive();
-       al.classList.add("active");
-   }
-
-   rl.addEventListener("click",rlfunc);
-   sl.addEventListener("click",slfunc);
-   tl.addEventListener("click",tlfunc);
-   askl.addEventListener("click",asklfunc);
-   pl.addEventListener("click",plfunc);
-
-   // function activefunc(c){
-   //     inactive();
-   //     switch (c){
-   //         case 1:hl.classList.add("active");
-   //                break;
-   //         case 2:al.classList.add("active");
-   //                break;
-   //         case 3:rl.classList.add("active");
-   //                break;
-   //         case 4:sl.classList.add("active");
-   //                break;
-   //         case 5:tl.classList.add("active");
-   //                break;
-   //         case 6:askl.classList.add("active");
-   //                break;
-   //         case 7:pl.classList.add("active");
-   //                break;
-   //         default:hl.classList.add("active");
-   //     }
-   // }
-   // function inactive(){
-   //     hl.classList.remove("active");
-   //     al.classList.remove("active");
-   //     rl.classList.remove("active");
-   //     sl.classList.remove("active");
-   //     tl.classList.remove("active");
-   //     askl.classList.remove("active");
-   //     pl.classList.remove("active");
-   // }
-   //
-
-   //
-
-   //
-   // function rlfunc() {
-   //     //inactive();
-   //     rl.classList.add("active");
-   // }
-   //
-   // function slfunc() {
-   //     //inactive();
-   //     sl.classList.add("active");
-   // }
-   //
-   // function tlfunc() {
-   //     //inactive();
-   //     tl.classList.add("active");
-   // }
-   //
-   // function asklfunc() {
-   //     //inactive();
-   //     askl.classList.add("active");
-   // }
-   //
-   // function plfunc() {
-   //     //inactive();
-   //     pl.classList.add("active");
-   // }
-</script>

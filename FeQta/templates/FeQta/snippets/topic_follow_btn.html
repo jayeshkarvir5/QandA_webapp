@@ -1,0 +1,8 @@
+{% if request.user.is_authenticated %}
+<form class='form' method='POST' action='{% url "FeQta:topic_follow" topic.slug%}'> {% csrf_token %}
+<input type='hidden' name='topicname' value='{% if topic.slug %}{{ topic.slug }}{% else %}toefl{% endif %}'/>
+<button class='btn {% if is_following %}btn-default{% else %}btn-outline-secondary follow-btn{% endif %}'>
+    {% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
+    <span class="lead">{{count}}</span>
+</form>
+{% endif %}

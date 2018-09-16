@@ -2,34 +2,45 @@
 
 
 {% block title %}{{ user.username }}{% endblock %}
-
 {% block body %}
+    <style>
+        .table-dark{
+            background-color: #1b2845;
+        }
+    </style>
+
     <div class="card text-center " style="width: 60%;margin-left:20%; ">
         <div class="card-body">
             <h3 class="card-title">{{ user.username }}</h3><br/>
-            <a href="#" class="btn btn-outline-secondary follow-btn">Follow</a>
+            {% include 'FeQta/snippets/profile_follow_btn.html' with username=user.username is_following=is_following %}
             <form class="form" method="get" action=".">
                 <input type="text" placeholder="Search.." name="q">
-                <!--<button class="btn btn-default" type="submit" value="request.GET.q">Search</button>-->
+                <button class="btn btn-default" type="submit" value="request.GET.q">Search</button>
             </form>
         </div>
+    </div>
+    <div class="mt-3">
+        <h4>Activity:</h4>
+                <table class="table  table-dark mb-1">
+                    <tr>
+                        <td scope="row">Followers : {{ count }}</td>
+                        <td >Questions asked : {{ count1 }}</td>
+                        <td >Answers : {{ count2 }}</td>
+                        <td >Topics : {{ count3 }}</td>
+                     </tr>
+                    <tr>
+                        <td scope="row">Likes : {{ count4 }}</td>
+                        <td >Dislikes : {{ count6 }}</td>
+                        <td >Needs Improvement : {{ count5 }}</td>
+                        <td ></td>
+                     </tr>
+                </table>
     </div>
     <div class="mt-3">
         <h4>Questions asked:</h4>
         {% if questions %}
             {% for ques in questions %}
-                <div class="card mb-1">
-                    <div class="card-body">
-                         <!--{%url 'FeQta:question_detail' ques.slug%}-->
-                        <h5><a class="text-dark" href="{{ques.get_absolute_url}}">{{ ques.question }}</a></h5>
-                        {% if ques.desc %}
-                            <p class="card-text"><b>Description: </b>{{ ques.desc }}</p>
-                        {% endif %}
-                        <p class="card-text">asked by <i>{{ ques.owner}}</i></p>
-                        <!-- {{ques.topic.get_absolute_url}} -->
-                        <p class="card-text">Related to Topic: <a href="{{ques.topic.get_absolute_url}}">{{ques.topic.name}}</a> </p>
-                    </div>
-                </div>
+                {% include 'FeQta/snippets/question_card.html'%}
             {% endfor %}
         {% else %}
             <p class='lead'>No Questions Found</p>
@@ -39,19 +50,32 @@
         <h4>Answers:</h4>
         {% if answers %}
             {% for ans in answers %}
-            <div class="card mb-1">
+                <div class="card mb-1">
                     <div class="card-body">
-                        <h5 class="card-text">{{ans.question.question}}</h5>
-                        <p class="card-text">{{ ans.answer }}</p>
-                            <small>Like&nbsp;<i class="far fa-thumbs-up"></i>{{ ans.likes }}&nbsp;&nbsp;Needs_improvement&nbsp;<i class="fas fa-star-half-alt"></i>{{ans.needs_improvement}}&nbsp;&nbsp;
-                            Dislike&nbsp;<i class="far fa-thumbs-down"></i>{{ans.dislikes}}</small><br/>
-                        <small>Answered by &nbsp;<i>{{ans.owner}}</i>&nbsp;
-                            {{ans.timestamp}}</small>
+                        <h5><a href="{{ans.question.get_absolute_url}}">{{ ans.question.question }}</a></h5>
+                        {% if ans.question.desc %}
+                            <p class="card-text"><b>Description: </b>{{ ans.question.desc }}</p>
+                        {% endif %}
+                        <p class="card-text">asked by <i><a href="{{ans.question.owner.profile.get_absolute_url}}">{{ ans.question.owner.username }}
+                            </a></i></p>
+                        <p class="card-text">Related to Topic: <a href="{{ans.question.topic.get_absolute_url}}">{{ans.question.topic.name}}</a> </p>
+                        <hr style="background-color: #ccc">
+                        {% include 'FeQta/snippets/answer_card.html'%}
                     </div>
             </div>
             {% endfor %}
         {% else %}
             <p class='lead'>No Answers Found</p>
+        {% endif %}
+    </div>
+    <div class="mt-3">
+        <h4>Topics followed:</h4>
+        {% if topics %}
+            {% for topic in topics %}
+                {% include 'FeQta/snippets/topic_card.html'%}
+            {% endfor %}
+        {% else %}
+            <p class='lead'>No Topics Found</p>
         {% endif %}
     </div>
 {% endblock %}

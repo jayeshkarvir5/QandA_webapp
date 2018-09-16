@@ -17,18 +17,12 @@
             <img class="card-img-top img-fluid" src="{{ topic.topic_logo.url }}"
                    /><br/><br/>
             <p class="card-text">{{ topic.desc }}</p><br/>
-            <a href="#" class="btn btn-outline-secondary follow-btn">Follow</a>
+            {% include 'FeQta/snippets/topic_follow_btn.html'%}
         </div>
          </div>
     <div class="mt-3">
         {% for ques in topic.question_set.all %}
-        <div class="card mb-1">
-                <div class="card-body">
-                    <!--{%url 'FeQta:question_detail' ques.slug%}-->
-                    <h5><a href="{{ques.get_absolute_url}}">{{ ques.question }}</a></h5>
-                        <p>{{ ques.desc }}</p>
-                </div>
-        </div>
+            {% include 'FeQta/snippets/question_card.html'%}
         {% endfor %}
     </div>
 
