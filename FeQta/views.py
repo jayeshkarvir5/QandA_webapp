@@ -1,41 +1,81 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, logout
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from .models import Topic, Question, Answer, Profile
 from django.urls import reverse_lazy, reverse
-from .forms import QuestionCreateForm, AnswerCreateForm
+from .forms import QuestionCreateForm, AnswerCreateForm, RegisterForm
 from django.db.models import Q
 # read about django anonymous user
 # do not allow user to like his own answer
 # use default names to avoid template_name
-# no need for ans detail and ans list?
 # take care of user changing the url
 # use &nbsp; for spaces
 # def get_query_set
 #   return model.objects.filter(user=self.request.user)
 # provide update button in profile for answers
-# work on answer views and comment views
+# work on answer views(delete,update), question(delete?) and comment views?
+# take care of user answering and asking questions
+# display followers likes dislikes appropriately
 # login needs to be fixed
 
 
 User = get_user_model()
 
 
-class HomeView(TemplateView):  # LoginRequiredMixin,
-    template_name = 'FeQta/home.html'
+class RegisterView(CreateView):
+    form_class = RegisterForm
+    template_name = "registration/register.html"
+    success_url = reverse_lazy()
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(HomeView, self).get_context_data(*args, **kwargs)
-        num = 555
-        demo_data = [1000, 2000, 3000, 4000]
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('/FeQta/logout/')
+        return super(RegisterView, self).dispatch(*args, **kwargs)
+
+
+def LogoutView(request):
+    logout(request)
+    return redirect('/FeQta/login/')
+
+
+class LogoutPage(TemplateView):
+    template_name = 'FeQta/logout_page.html'
+
+
+class HomeView(View):
+    # create a counter based html temp to render mixed queries of different qs
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            num = 555
+            demo_data = [1000, 2000, 3000, 4000]
+            context = {
+                "num": num,
+                "demo_data": demo_data,
+                "error": None,
+            }
+            return render(request,'FeQta/home.html',context)
+        user = request.user
+        is_following_user_ids =[x.user.id for x in user.is_following.all()]
+        is_following_topic_id =[x.id for x in user.topics_followed.all()]
+        # qs = Answer.objects.filter(question__owner__id__in=is_following_user_ids)  # following_user ques
+        followed_questions = user.question_followed_by.all()
+        qs = Answer.objects.filter(question__in=followed_questions)  # followed question answered,
+        qs1 = Answer.objects.filter(question__owner__id=user.id)  # answer for my question
+        qs2 = Answer.objects.filter(owner__id__in=is_following_user_ids)  # following_user answer
+        qs3 = Answer.objects.filter(likes__id__in=is_following_user_ids)  # like by following_user
+        qs4 = Answer.objects.filter(question__topic__in=is_following_topic_id)  # topics followed answers
         context = {
-            "num": num,
-            "demo_data": demo_data,
-            "error": None,
+            "ans_followed_questions": qs,
+            "ans_my_ques": qs1,
+            "answers": qs2,
+            "likes": qs3,
+            "topic_rld": qs4,
+            "is_following_user_ids": is_following_user_ids,
         }
-        return context
+        print(qs)
+        return render(request,'FeQta/home_feed.html',context)
 
 
 class TopicListView(ListView):
@@ -69,12 +109,6 @@ def TopicFollowToggle(request, slug):
         topic_to_toggle.followers.add(user)
     topic_to_toggle.save()
     return redirect(f'/FeQta/topics/{topic_to_toggle.slug}/')
-
-
-class TopicCreateView(CreateView):
-    model = Topic
-    fields = ['name', 'desc', 'topic_logo']
-    # success_url = reverse_lazy('home')
 
 
 class QuestionCreateView(LoginRequiredMixin, CreateView):
@@ -136,10 +170,10 @@ class AnswerCreateView(LoginRequiredMixin, CreateView):
             # question = get_object_or_404(Question, slug=self.kwargs.get('slug'))
             question = Question.objects.get(slug=self.kwargs.get('slug'))
         except Question.DoesNotExist:
-            return HttpResponse('<h3>Question not found</h3>')
+            return render(self.request, 'FeQta/error_page.html', {'error': "Question not found"})
         instance.question = question
         if instance.owner == instance.question.owner:
-            return HttpResponse('<h3>User is answering the question they asked</h3>')
+            return render(self.request, 'FeQta/error_page.html', {'error': "User is answering the question they asked"})
         else:
             return super(AnswerCreateView, self).form_valid(form)
 
@@ -163,7 +197,7 @@ class AnswerUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         if instance.owner != self.request.user:
-            return HttpResponse('<h3>Cannot edit as you have not answered this question</h3>')
+            return render(self.request, 'FeQta/error_page.html', {'error': "Only the owner of this answer may edit."})
         else:
             return super(AnswerUpdateView, self).form_valid(form)
 
@@ -172,6 +206,18 @@ class AnswerUpdateView(LoginRequiredMixin, UpdateView):
         context['head'] = 'Update your answer'
         context['title'] = 'Update-answer'
         return context
+
+
+# class AnswerDeleteView(LoginRequiredMixin, DetailView):
+#     model = Answer
+#     login_url = reverse_lazy('FeQta:login')
+#     success_url = reverse_lazy('FeQta/home.html')
+#
+#     def get_object(self):
+#         obj = super(AnswerDeleteView, self).get_object()
+#         if not obj.owner == self.request.user:
+#             return render(self.request, 'FeQta/error_page.html', {'error': "Only the owner of this answer may delete it."})
+#         return obj
 
 
 def LikeToggle(request, slug):
@@ -239,18 +285,21 @@ class AnswersView(ListView):
 
 class ProfileDetailView(DetailView):
     template_name = 'FeQta/profile_detail.html'
+    flag = True
 
     def get_object(self):
         username = self.kwargs.get('username')
         if username is None:
-            raise Http404
+            raise 404
+            # return render(self.request, 'FeQta/error_page.html', {'error': "Question not found"})
         return get_object_or_404(User, username__iexact=username, is_active=True)
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProfileDetailView, self).get_context_data(*args, **kwargs)
         user = context['user']
         if self.request.user.is_authenticated:
-            is_following = False
+            if user.is_authenticated:
+                is_following = False
             if user.profile in self.request.user.is_following.all():
                 is_following = True
             context['is_following'] = is_following
@@ -259,6 +308,7 @@ class ProfileDetailView(DetailView):
         qs2 = Answer.objects.filter(owner=user)  # user.answer_set.all().count()
         qs3 = user.topics_followed.all()  # Topic.objects.filter(followers=user)
         context['count'] = user.profile.followers.all().count()
+        context['count0'] = user.is_following.all().count()
         context['count1'] = qs.count()
         context['count2'] = qs2.count()
         context['count3'] = qs3.count()
@@ -275,7 +325,7 @@ class ProfileDetailView(DetailView):
             context['answers'] = qs2
         if qs3:
             context['topics'] = qs3
-        return context
+            return context
 
 
 class ProfileFollowToggle(LoginRequiredMixin, View):
@@ -305,54 +355,5 @@ class SearchListView(TemplateView):
         return context
 
 
-# class LoginView(LoginRequiredMixin, TemplateView):
-#     template_name = "FeQta/home.html"
-#     login_url = reverse_lazy('FeQta:login')
-
-
 class RanksView(TemplateView):
     template_name = 'FeQta/ranks.html'
-
-
-class ProfileView(TemplateView):
-    template_name = 'FeQta/profile.html'
-
-
-
-
-# notes
-# from django.contrib.auth.decorators import login_required
-# for FBV
-# from django.views.generic import View
-
-# def get_initial(self):
-#     question = get_object_or_404(Question, slug=self.kwargs.get('slug'))
-#     question = Question.objects.filter(slug=self.kwargs.get('slug'))
-#     return {
-#         'question': question,
-#     }
-
-# def question_create_view(request):
-#     form = QuestionCreateForm(request.POST or None)
-#     errors = None
-#
-#     if form.is_valid():
-#         if request.is_authenticated():
-#             instance = form.save(commit=False)
-#             # customize
-#             # like pre save
-#             instance.owner = request.user
-#             instance.save()
-#             return HttpResponseRedirect('/home/')
-#         else:
-#             return HttpResponseRedirect('/login/')
-#
-#     if form.errors:
-#         errors = form.errors
-#
-#     template_name = 'FeQta/question_form.html'
-#     context = {
-#         "form":form,
-#          "errors":errors
-#     }
-#     return render(request,template_name,context)

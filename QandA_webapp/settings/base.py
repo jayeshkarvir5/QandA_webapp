@@ -122,4 +122,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 MEDIA_URL = '/media/'
+
+LOGOUT_REDIRECT_URL = '/FeQta/login/'
+
+LOGIN_REDIRECT_URL = '/FeQta/home/'

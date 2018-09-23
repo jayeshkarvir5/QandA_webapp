@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h5>Register:</h5>
+<form method="post" action="{% url 'FeQta:register' %}">
+{% csrf_token %}
+{{ form.as_p }}
+
+<input type="submit" value="Register">
+<input type="hidden" name="next" value="{{ next }}">
+</form>
+Did you need a <a href="{% url 'FeQta:login'%}">Login?</a>
+
+{% endblock %}
