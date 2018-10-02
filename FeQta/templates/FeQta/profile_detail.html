@@ -66,6 +66,11 @@
                         <p class="card-text">Related to Topic: <a href="{{ans.question.topic.get_absolute_url}}">{{ans.question.topic.name}}</a> </p>
                         <hr style="background-color: #ccc">
                         {% include 'FeQta/snippets/answer_card.html'%}
+                        {% if request.user.is_authenticated and user == request.user %}
+                            <form class="form" action="{% url 'FeQta:answer_delete_page' ans.slug%}">
+                                <button type="submit" class='btn btn-outline-danger btn-sm'>Delete</button>
+                            </form>
+                        {% endif%}
                         <!--<a class="btn btn-danger" href="#">Delete My Answer</a>-->
                     </div>
             </div>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+{% block title %}Answer{% endblock %}
+
+{% block body %}
+{% for ques in topic_rld %}
+    <br/><small class="badge badge-warning " >question for followed topic</small>
+    {% include 'FeQta/snippets/question_card.html'%}
+{% endfor %}
+{% for ques in following_user %}
+    <br/><small class="badge badge-dark" >question by followed user</small>
+    {% include 'FeQta/snippets/question_card.html'%}
+{% endfor %}
+{% endblock %}

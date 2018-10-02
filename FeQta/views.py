@@ -8,17 +8,11 @@ from django.urls import reverse_lazy, reverse
 from .forms import QuestionCreateForm, AnswerCreateForm, RegisterForm
 from django.db.models import Q
 # read about django anonymous user
-# do not allow user to like his own answer
-# use default names to avoid template_name
 # take care of user changing the url
 # use &nbsp; for spaces
-# def get_query_set
-#   return model.objects.filter(user=self.request.user)
-# provide update button in profile for answers
 # work on answer views(delete,update), question(delete?) and comment views?
-# take care of user answering and asking questions
-# display followers likes dislikes appropriately
 # login needs to be fixed
+# create a counter based html temp to render mixed queries of different qs
 
 
 User = get_user_model()
@@ -48,33 +42,26 @@ class HomeView(View):
     # create a counter based html temp to render mixed queries of different qs
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            num = 555
-            demo_data = [1000, 2000, 3000, 4000]
-            context = {
-                "num": num,
-                "demo_data": demo_data,
-                "error": None,
-            }
-            return render(request,'FeQta/home.html',context)
+            qs = Answer.objects.all()
+            return render(request,'FeQta/home.html',{'qs':qs})
         user = request.user
         is_following_user_ids =[x.user.id for x in user.is_following.all()]
         is_following_topic_id =[x.id for x in user.topics_followed.all()]
-        # qs = Answer.objects.filter(question__owner__id__in=is_following_user_ids)  # following_user ques
         followed_questions = user.question_followed_by.all()
         qs = Answer.objects.filter(question__in=followed_questions)  # followed question answered,
         qs1 = Answer.objects.filter(question__owner__id=user.id)  # answer for my question
         qs2 = Answer.objects.filter(owner__id__in=is_following_user_ids)  # following_user answer
         qs3 = Answer.objects.filter(likes__id__in=is_following_user_ids)  # like by following_user
         qs4 = Answer.objects.filter(question__topic__in=is_following_topic_id)  # topics followed answers
+        # qs5 = Answer.objects.filter(question__owner__id__in=is_following_user_ids)  # following_user ques answered
         context = {
             "ans_followed_questions": qs,
             "ans_my_ques": qs1,
-            "answers": qs2,
+            "ans_following_user": qs2,
             "likes": qs3,
             "topic_rld": qs4,
             "is_following_user_ids": is_following_user_ids,
         }
-        print(qs)
         return render(request,'FeQta/home_feed.html',context)
 
 
@@ -208,16 +195,24 @@ class AnswerUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 
-# class AnswerDeleteView(LoginRequiredMixin, DetailView):
-#     model = Answer
-#     login_url = reverse_lazy('FeQta:login')
-#     success_url = reverse_lazy('FeQta/home.html')
-#
-#     def get_object(self):
-#         obj = super(AnswerDeleteView, self).get_object()
-#         if not obj.owner == self.request.user:
-#             return render(self.request, 'FeQta/error_page.html', {'error': "Only the owner of this answer may delete it."})
-#         return obj
+class AnswerDeleteView(LoginRequiredMixin, DeleteView):
+    model = Answer
+    login_url = reverse_lazy('FeQta:login')
+    success_url = reverse_lazy('FeQta:delete_success')
+
+    def get_object(self, queryset=None):
+        obj = super(AnswerDeleteView, self).get_object()
+        if not obj.owner == self.request.user:
+            return render(self.request, 'FeQta/error_page.html', {'error': "Only the owner of this answer may delete it."})
+        return obj
+
+
+class AnswerDeletePage(LoginRequiredMixin,TemplateView):
+    template_name = 'FeQta/delete_answer_page.html'
+
+
+class AnswerDeleteSuccess(LoginRequiredMixin,TemplateView):
+    template_name = 'FeQta/delete_success.html'
 
 
 def LikeToggle(request, slug):
@@ -275,12 +270,20 @@ class AnswerDetailView(DetailView):
 
 
 class AnswersView(ListView):
-    template_name = 'FeQta/answers.html'
-    context_object_name = 'qs'
-
-    def get_queryset(self):
-        qs = Question.objects.all()  # filter(owner=self.request.user)
-        return qs
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            qs = Question.objects.all()
+            return render(request, 'FeQta/answers.html', {'qs':qs})
+        user = request.user
+        is_following_user_ids = [x.user.id for x in user.is_following.all()]
+        is_following_topic_id = [x.id for x in user.topics_followed.all()]
+        qs1 = Question.objects.filter(owner__id__in=is_following_user_ids)  # following_user ques
+        qs2 = Question.objects.filter(topic__in=is_following_topic_id)  # topics followed ques
+        context = {
+            "topic_rld": qs2,
+            "following_user": qs1,
+        }
+        return render(request, 'FeQta/answers_loggedin.html', context)
 
 
 class ProfileDetailView(DetailView):

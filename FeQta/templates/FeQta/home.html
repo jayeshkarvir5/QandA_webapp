@@ -4,13 +4,19 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    {% if error %}
-        <p>{{ error }}</p>
-    {% else %}
-        <p>Displaying demo data</p> <br/>
-            {% for i in demo_data %}
-                <p>{{ i }}</p> <br/>
-            {% endfor %}
-            <p> {{ num }} is another context var</p>
-    {% endif %}
+    {% for ans in qs%}
+        <div class="card mb-1">
+            <div class="card-body">
+                <h5><a href="{{ans.question.get_absolute_url}}">{{ ans.question.question }}</a></h5>
+                {% if ans.question.desc %}
+                <p class="card-text"><b>Description: </b>{{ ans.question.desc }}</p>
+                {% endif %}
+                <p class="card-text">asked by <i><a href="{{ans.question.owner.profile.get_absolute_url}}">{{ ans.question.owner.username }}
+                </a></i></p>
+                <p class="card-text">Related to Topic: <a href="{{ans.question.topic.get_absolute_url}}">{{ans.question.topic.name}}</a> </p>
+                <hr style="background-color: #ccc">
+                {% include 'FeQta/snippets/answer_card.html'%}
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

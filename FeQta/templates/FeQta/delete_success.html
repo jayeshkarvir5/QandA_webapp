@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Delete-Success{% endblock %}
+
+{% block body %}
+<p class="lead" style="font-size: 30px">Deletion successful!</p>
+<p class="lead">Back to <a href="{% url 'FeQta:home' %}">home</a>.</p>
+<p class="lead"><a href="{% url 'FeQta:profile_detail' request.user%}">Profile</a></p>
+{% endblock %}

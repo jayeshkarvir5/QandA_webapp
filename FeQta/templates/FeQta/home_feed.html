@@ -4,9 +4,9 @@
 {% block title %}Feeds{% endblock %}
 
 {% block body %}
-<p class="lead">Feed</p>
+<p class="lead">My Feed</p>
 {% for ans in ans_followed_questions%}
-    <br/><small>answer for followed question</small>
+    <br/><small class="badge badge-warning " >answer for followed question</small>
     <div class="card mb-1">
         <div class="card-body">
             <h5><a href="{{ans.question.get_absolute_url}}">{{ ans.question.question }}</a></h5>
@@ -22,7 +22,7 @@
     </div>
 {% endfor %}
 {% for ans in ans_my_ques%}
-    <br/><small>answer to my question</small>
+    <br/><small class="badge badge-dark ">answer to my question</small>
     <div class="card mb-1">
         <div class="card-body">
             <h5><a href="{{ans.question.get_absolute_url}}">{{ ans.question.question }}</a></h5>
@@ -38,7 +38,7 @@
     </div>
 {% endfor %}
 {% for ans in topic_rld%}
-    <br/><small>answer related to followed topic</small>
+    <br/><small class="badge badge-warning " >answer related to followed topic</small>
     <div class="card mb-1">
         <div class="card-body">
             <h5><a href="{{ans.question.get_absolute_url}}">{{ ans.question.question }}</a></h5>
@@ -54,7 +54,7 @@
     </div>
 {% endfor %}
 {% for ans in likes %}
-    <br/><small>liked by following_user</small>
+    <br/><small class="badge badge-dark ">liked by following_user</small>
     <div class="card mb-1">
         <div class="card-body">
             <h5><a href="{{ans.question.get_absolute_url}}">{{ ans.question.question }}</a></h5>
@@ -69,16 +69,20 @@
         </div>
     </div>
 {% endfor %}
-{% for ans in answers %}
-    <br/><small>{{ ans.owner.username }} answered</small>
+{% for ans in ans_following_user %}
+    <br/><small class="badge badge-warning ">{{ ans.owner.username }} answered</small>
     <div class="card mb-1">
         <div class="card-body">
+            <h5><a href="{{ans.question.get_absolute_url}}">{{ ans.question.question }}</a></h5>
+            {% if ans.question.desc %}
+            <p class="card-text"><b>Description: </b>{{ ans.question.desc }}</p>
+            {% endif %}
+            <p class="card-text">asked by <i><a href="{{ans.question.owner.profile.get_absolute_url}}">{{ ans.question.owner.username }}
+            </a></i></p>
+            <p class="card-text">Related to Topic: <a href="{{ans.question.topic.get_absolute_url}}">{{ans.question.topic.name}}</a> </p>
+            <hr style="background-color: #ccc">
             {% include 'FeQta/snippets/answer_card.html'%}
         </div>
     </div>
-{% endfor %}
-{% for ques in questions %}
-    <small>{{ ques.owner.username }} asked</small>
-    {% include 'FeQta/snippets/question_card.html'%}
 {% endfor %}
 {% endblock %}
