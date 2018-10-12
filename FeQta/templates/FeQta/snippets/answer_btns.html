@@ -1,19 +1,19 @@
 {% if request.user.is_authenticated and answer.owner != request.user %}
 {% if not is_liked and not is_need_imp and not is_disliked%}
-    <a href="{% url 'FeQta:answer_like' answer.slug%}" class='btn btn-outline-secondary {% if not is_liked %}follow-btn{% endif %}'>
+    <a href="{% url 'FeQta:answer_like' answer.slug%}" class='btn btn-sm btn-outline-secondary {% if not is_liked %}follow-btn{% endif %}'>
         {% if is_liked %}Liked{% else %}Like{% endif %}<i class="far fa-thumbs-up"></i></a>&nbsp;&nbsp;
-    <a href="{% url 'FeQta:answer_need_imp' answer.slug%}" class='btn btn-outline-secondary {% if not is_need_imp %}follow-btn{% endif %}'>
+    <a href="{% url 'FeQta:answer_need_imp' answer.slug%}" class='btn btn-sm btn-outline-secondary {% if not is_need_imp %}follow-btn{% endif %}'>
         {% if is_need_imp %}Needed Improvement{% else %}Needs Improvement{% endif %}<i class="fas fa-star-half-alt"></i></a>&nbsp;&nbsp;
-    <a href="{% url 'FeQta:answer_dislike' answer.slug%}" class='btn btn-outline-secondary {% if not is_disliked %}follow-btn{% endif %}'>
+    <a href="{% url 'FeQta:answer_dislike' answer.slug%}" class='btn btn-sm btn-outline-secondary {% if not is_disliked %}follow-btn{% endif %}'>
         {% if is_disliked %}Disliked{% else %}Dislike{% endif %}<i class="far fa-thumbs-down"></i></a>
 {%elif not is_disliked and not is_need_imp%}
-    <a href="{% url 'FeQta:answer_like' answer.slug%}" class='btn btn-outline-secondary'>
+    <a href="{% url 'FeQta:answer_like' answer.slug%}" class='btn btn-sm btn-outline-secondary'>
         Liked<i class="far fa-thumbs-up"></i></a>
 {%elif not is_liked and not is_disliked %}
-    <a href="{% url 'FeQta:answer_need_imp' answer.slug%}" class='btn btn-outline-secondary '>
+    <a href="{% url 'FeQta:answer_need_imp' answer.slug%}" class='btn btn-sm btn-outline-secondary '>
         Needed Improvement<i class="fas fa-star-half-alt"></i></a>
 {%elif not is_liked and not is_need_imp%}
-    <a href="{% url 'FeQta:answer_dislike' answer.slug%}" class='btn btn-outline-secondary'>
+    <a href="{% url 'FeQta:answer_dislike' answer.slug%}" class='btn btn-sm btn-outline-secondary'>
         Disliked<i class="far fa-thumbs-down"></i></a>
 {% endif %}
 {% endif %}

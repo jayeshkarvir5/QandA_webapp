@@ -1,6 +1,6 @@
-<h5 class="card-text">{{ ans.answer }}</h5>
+<h5 class="card-text" style="height:25px;overflow: hidden">{{ ans.answer }}</h5>
 <small>Like&nbsp;<i class="far fa-thumbs-up"></i>{{ ans.likes.count }}&nbsp;&nbsp;Needs_improvement&nbsp;<i class="fas fa-star-half-alt"></i>{{ans.needs_improvement.count}}&nbsp;&nbsp;
 Dislike&nbsp;<i class="far fa-thumbs-down"></i>{{ans.dislikes.count}}</small><br/>
-<small>Answered by &nbsp;<i>{{ans.owner}}</i>&nbsp;
+<small>Answered by &nbsp;<i><b>{{ans.owner}}</b></i>&nbsp;
 {{ans.timestamp}}</small>
-<a href="{{ans.get_absolute_url}}">View more</a>
+<a href="{{ans.get_absolute_url}}">(view more)</a>
