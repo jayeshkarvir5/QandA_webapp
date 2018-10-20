@@ -1,4 +1,4 @@
-{% if request.user.is_authenticated and user != request.user %}
+{% if request.user.is_authenticated and profile.user != request.user %}
 <form class='form' method='POST' action='{% url "FeQta:profile_follow" %}'> {% csrf_token %}
 <input type='hidden' name='username' value='{% if username %}{{ username }}{% else %}savaj{% endif %}'/>
 <button class='btn {% if is_following %}btn-default{% else %}btn-outline-secondary follow-btn{% endif %}'>

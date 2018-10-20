@@ -25,6 +25,7 @@ urlpatterns = [
     path('answers/', views.AnswersView.as_view(), name="answers"),
     path('search/', views.SearchListView.as_view(), name="search"),
     path('profile/<username>/', views.ProfileDetailView.as_view(), name="profile_detail"),
+    path('profile/<username>/edit', views.ProfileUpdateView.as_view(), name="profile_edit"),
     path('profile-follow/', views.ProfileFollowToggle.as_view(), name="profile_follow"),
     path('ranks/', views.RanksView.as_view(), name="ranks"),
     path('login/', LoginView.as_view(), name="login"),

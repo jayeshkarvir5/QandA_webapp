@@ -16,8 +16,11 @@
                 <div class="card-body">
                     <h5 class="card-text">{{ answer.answer }}</h5>
                     {% include 'FeQta/snippets/answer_btns.html'%}
-                    <small>Answered by &nbsp;<i>{{answer.owner}}</i>&nbsp;
-                        {{answer.timestamp}}</small>
+                    <small><b>Like</b>&nbsp;<i class="far fa-thumbs-up"></i>{{ answer.likes.count }}&nbsp;&nbsp;
+                        <b>Needs_improvement</b>&nbsp;<i class="fas fa-star-half-alt"></i>{{answer.needs_improvement.count}}&nbsp;&nbsp;
+                        <b>Dislike</b>&nbsp;<i class="far fa-thumbs-down"></i>{{answer.dislikes.count}}</small><br/>
+                    <small>Answered by &nbsp;<i><b>{{answer.owner}}</b></i>&nbsp;on
+                        <b>{{answer.timestamp}}</b></small>
                 </div>
         </div>
     </div>

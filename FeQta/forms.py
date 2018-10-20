@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question, Answer
+from .models import Question, Answer, Profile
 from django.contrib.auth import get_user_model
 
 
@@ -26,14 +26,23 @@ class AnswerCreateForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = [
-            # 'question',
             'answer',
         ]
 
     def __init__(self, user=None, *args, **kwargs):
-        print(user)
         super(AnswerCreateForm, self).__init__(*args, **kwargs)
-        print(kwargs)
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = [
+            'desc',
+            'pic'
+        ]
+
+    def __init__(self, user=None, *args, **kwargs):
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
 
 
 class RegisterForm(forms.ModelForm):
@@ -45,6 +54,13 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email',)
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'password2': forms.TextInput(attrs={'class': 'form-control'}),
+
+        }
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -65,7 +81,8 @@ class RegisterForm(forms.ModelForm):
         # Save the provided password in hashed format
         user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
-        user.is_active = False
+        user.is_active = True
+        # user.is_active = False
         # create a new user hash for activating email.
 
         if commit:

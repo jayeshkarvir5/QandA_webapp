@@ -6,7 +6,7 @@
       </button>
       <div class="collapse navbar-collapse ml-sm-5" id="navbarToggler">
         <ul class="navbar-nav mr-auto  mt-lg-0 ">
-          <li class="nav-item mr-3" >
+          <li class="nav-item mr-3 active" >
             <a class="nav-link active" href="{% url 'FeQta:home' %}" id="home-link">
                 <i class="fas fa-clipboard-list"></i> Home</a>
           </li>
@@ -35,7 +35,9 @@
                   {% else %}{% url 'FeQta:login' %}{% endif %}" id="profile-link"><i class="fas fa-user-alt"></i> Profile</a>
               </li>
               <li class="nav-item mr-5">
-                  <a href="{% url 'FeQta:login' %}"><button class="btn btn-outline-warning" type="button">Get Started</button></a>
+                  <a href="{% if request.user.is_authenticated %}{% url 'FeQta:logout_page' %}{% else %}
+                  {% url 'FeQta:register' %}{% endif %}"><button class="btn btn-outline-warning" type="button">
+                      {% if request.user.is_authenticated %}Logout{% else %}Get Started{% endif %}</button></a>
               </li>
                </ul>
       </div>

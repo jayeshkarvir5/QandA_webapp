@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import pre_save, post_save
-from .utils import unique_slug_generator
+from .utils import unique_slug_generator, code_generator
 from django.urls import reverse
 # read docs for fields
 
@@ -17,9 +17,12 @@ class ProfileManager(models.Manager):
         is_following = False
         if user in profile_.followers.all():
             profile_.followers.remove(user)
+            profile_.score -= 1
         else:
             profile_.followers.add(user)
+            profile_.score += 1
             is_following = True
+        profile_.save()
         return profile_, is_following
 
 
@@ -28,13 +31,28 @@ class Profile(models.Model):
     # user.followers user.following
     followers = models.ManyToManyField(User, related_name='is_following', blank=True)
     # following = models.ManyToManyField(User, related_name='following', blank=True)
-    activated = models.BooleanField(default=False)
+    # activated = models.BooleanField(default=False)
+    # activation_key = models.CharField(max_length=45, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    desc = models.TextField(max_length=200, blank=True, null=True)
+    pic = models.FileField(null=True, blank=True)
+    score = models.IntegerField(default=0,blank=True, null=True)
     objects = ProfileManager()
 
     def __str__(self):
         return self.user.username
+
+    class Meta:
+        ordering = ['-score']
+
+    # def send_actication_email(self):
+    #     print("Activation")
+    #     if not self.activated:
+    #         self.activation_key = code_generator()
+    #         self.save()
+    #         sent_mail = False
+    #         return sent_mail
 
     def get_absolute_url(self):
         return reverse('FeQta:profile_detail', kwargs={'username': self.user.username})
@@ -148,6 +166,27 @@ class Question(models.Model):
 pre_save.connect(slug_pre_save_receiver, Question)
 
 
+class AnswerQuerySet(models.query.QuerySet):
+
+    def search(self, query):
+        query = query.strip()  # get rid of preciding space
+        if query:  # Question.objects.all().search(query) #Question.objects.filter(something).search()
+            return self.filter(
+                    Q(question__question__icontains=query) |
+                    Q(question__topic__name__icontains=query)
+                ).distinct()
+        return self
+
+
+class AnswerManager(models.Manager):
+
+    def get_queryset(self):
+        return AnswerQuerySet(self.model, using=self._db)
+
+    def search(self, query):  # Question.objects.search()
+        return self.get_queryset().search(query)
+
+
 class Answer(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -158,6 +197,7 @@ class Answer(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(null=True, blank=True)
+    objects = AnswerManager()
 
     class Meta:
         ordering = ['-updated', '-timestamp']

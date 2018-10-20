@@ -1,7 +1,8 @@
-{% extends "base.html" %}
+{% include 'snippets/css.html' %}
+<body class="text-light" style="background-color: #1b2845">
+<p class="head">Fe<span class="text-warning">Q</span>t<span class="text-warning">A</span></p>
 
-{% block body %}
-<p>Login page</p>
+<div class="loginreg" >
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -17,21 +18,22 @@
 
 <form method="post" action="{% url 'FeQta:login' %}">
 {% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="login">
-<input type="hidden" name="next" value="{{ next }}">
+    <div class="form-group">
+        <label for="un">{{ form.username.label_tag }}</label>
+        <input class="form-control" id="un" maxlength="30" name="{{ form.username.html_name }}"
+               placeholder="" type="text" />
+        <small class="text-warning">{{ form.username.errors }}</small>
+    </div>
+    <div class="form-group">
+        <label for="pw">{{ form.password.label_tag }}</label>
+        <input class="form-control" id="pw" maxlength="30" name="{{ form.password.html_name }}"
+               placeholder=" " type="password" />
+        <small class="text-warning">{{ form.password.errors }}</small>
+    </div>
+    <button type="submit" class="btn btn-outline-warning" style="margin-left:42%">Login</button>
+    <input type="hidden" name="next" value="{{ next }}">
+    <p style="margin-top: 2%">New to FeQtA ? <a class="text-warning" href="{% url 'FeQta:register' %}">Signup.</a></p>
+    <p>Back to <a href="{% url 'FeQta:home' %}" class="text-warning">Home.</a></p>
 </form>
-
-{# Assumes you setup the password_reset view in your URLconf #}
-
-{% endblock %}
+</div>
+</body>

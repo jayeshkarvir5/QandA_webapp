@@ -5,7 +5,7 @@ from django.views.generic import View, ListView, DetailView, CreateView, UpdateV
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from .models import Topic, Question, Answer, Profile
 from django.urls import reverse_lazy, reverse
-from .forms import QuestionCreateForm, AnswerCreateForm, RegisterForm
+from .forms import QuestionCreateForm, AnswerCreateForm, RegisterForm, ProfileUpdateForm
 from django.db.models import Q
 # read about django anonymous user
 # take care of user changing the url
@@ -13,7 +13,7 @@ from django.db.models import Q
 # work on answer views(delete,update), question(delete?) and comment views?
 # login needs to be fixed
 # create a counter based html temp to render mixed queries of different qs
-
+# activate user
 
 User = get_user_model()
 
@@ -21,11 +21,11 @@ User = get_user_model()
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = "registration/register.html"
-    success_url = reverse_lazy()
+    success_url = reverse_lazy('FeQta:login')
 
     def dispatch(self, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect('/FeQta/logout/')
+            return redirect('FeQta:logout_page')
         return super(RegisterView, self).dispatch(*args, **kwargs)
 
 
@@ -51,7 +51,7 @@ class HomeView(View):
         qs = Answer.objects.filter(question__in=followed_questions)  # followed question answered,
         qs1 = Answer.objects.filter(question__owner__id=user.id)  # answer for my question
         qs2 = Answer.objects.filter(owner__id__in=is_following_user_ids)  # following_user answer
-        qs3 = Answer.objects.filter(likes__id__in=is_following_user_ids)  # like by following_user
+        qs3 = Answer.objects.filter(likes__id__in=is_following_user_ids, question__topic__in=is_following_topic_id)  # like by following_user
         qs4 = Answer.objects.filter(question__topic__in=is_following_topic_id)  # topics followed answers
         # qs5 = Answer.objects.filter(question__owner__id__in=is_following_user_ids)  # following_user ques answered
         context = {
@@ -137,11 +137,15 @@ class QuestionDetailView(DetailView):
 def QuestionFollowToggle(request, slug):
     user = request.user
     question_to_toggle = Question.objects.get(slug=slug)
+    profile = Profile.objects.filter(user=question_to_toggle.owner)[0]
     if user in question_to_toggle.followers.all():
         question_to_toggle.followers.remove(user)
+        profile.score -= 1
     else:
         question_to_toggle.followers.add(user)
+        profile.score += 1
     question_to_toggle.save()
+    profile.save()
     return redirect(f'/FeQta/question/{question_to_toggle.slug}/')
 
 
@@ -218,33 +222,48 @@ class AnswerDeleteSuccess(LoginRequiredMixin,TemplateView):
 def LikeToggle(request, slug):
     user = request.user
     answer_to_toggle = Answer.objects.get(slug=slug)
+    owner = answer_to_toggle.owner
+    profile = Profile.objects.filter(user=owner)[0]
     if user in answer_to_toggle.likes.all():
         answer_to_toggle.likes.remove(user)
+        profile.score -= 2
     else:
         answer_to_toggle.likes.add(user)
+        profile.score += 2
         answer_to_toggle.save()
+    profile.save()
     return redirect(f'/FeQta/answer/{answer_to_toggle.slug}/')
 
 
 def NeedimpToggle(request, slug):
     user = request.user
     answer_to_toggle = Answer.objects.get(slug=slug)
+    owner = answer_to_toggle.owner
+    profile = Profile.objects.filter(user=owner)[0]
     if user in answer_to_toggle.needs_improvement.all():
         answer_to_toggle.needs_improvement.remove(user)
+        profile.score -= 1
     else:
         answer_to_toggle.needs_improvement.add(user)
+        profile.score += 1
         answer_to_toggle.save()
+    profile.save()
     return redirect(f'/FeQta/answer/{answer_to_toggle.slug}/')
 
 
 def DislikeToggle(request, slug):
     user = request.user
     answer_to_toggle = Answer.objects.get(slug=slug)
+    owner = answer_to_toggle.owner
+    profile = Profile.objects.filter(user=owner)[0]
     if user in answer_to_toggle.dislikes.all():
         answer_to_toggle.dislikes.remove(user)
+        profile.score += 1
     else:
         answer_to_toggle.dislikes.add(user)
+        profile.score -= 1
         answer_to_toggle.save()
+    profile.save()
     return redirect(f'/FeQta/answer/{answer_to_toggle.slug}/')
 
 
@@ -277,7 +296,7 @@ class AnswersView(ListView):
         user = request.user
         is_following_user_ids = [x.user.id for x in user.is_following.all()]
         is_following_topic_id = [x.id for x in user.topics_followed.all()]
-        qs1 = Question.objects.filter(owner__id__in=is_following_user_ids)  # following_user ques
+        qs1 = Question.objects.filter(owner__id__in=is_following_user_ids, topic__in=is_following_topic_id)  # following_user ques
         qs2 = Question.objects.filter(topic__in=is_following_topic_id)  # topics followed ques
         context = {
             "topic_rld": qs2,
@@ -286,20 +305,48 @@ class AnswersView(ListView):
         return render(request, 'FeQta/answers_loggedin.html', context)
 
 
-class ProfileDetailView(DetailView):
-    template_name = 'FeQta/profile_detail.html'
-    flag = True
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileUpdateForm
+    template_name = "FeQta/profile_form.html"
+    login_url = reverse_lazy('FeQta:login')
 
     def get_object(self):
         username = self.kwargs.get('username')
         if username is None:
             raise 404
             # return render(self.request, 'FeQta/error_page.html', {'error': "Question not found"})
-        return get_object_or_404(User, username__iexact=username, is_active=True)
+        return get_object_or_404(Profile, user__username__iexact=username)
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        if instance.user != self.request.user:
+            return render(self.request, 'FeQta/error_page.html', {'error': "Only the owner of this Profile may edit."})
+        else:
+            return super(ProfileUpdateView, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProfileUpdateView, self).get_context_data(*args, **kwargs)
+        context['head'] = 'Update your Profile'
+        context['title'] = ''
+        return context
+
+
+class ProfileDetailView(DetailView):
+    template_name = 'FeQta/profile_detail.html'
+
+    def get_object(self):
+        username = self.kwargs.get('username')
+        if username is None:
+            raise 404
+            # return render(self.request, 'FeQta/error_page.html', {'error': "Question not found"})
+        return get_object_or_404(Profile, user__username__iexact=username)
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProfileDetailView, self).get_context_data(*args, **kwargs)
-        user = context['user']
+        user = self.object.user
+        print(user)
+        print(self.request.user)
         if self.request.user.is_authenticated:
             if user.is_authenticated:
                 is_following = False
@@ -322,13 +369,14 @@ class ProfileDetailView(DetailView):
             qs = qs.search(query)  # only owner=user questions
             # qs = Question.objects.search(query) all questions
             qs3 = qs3.search(query)
+            qs2 = qs2.search(query)
         if qs:
             context['questions'] = qs
         if qs2:
             context['answers'] = qs2
         if qs3:
             context['topics'] = qs3
-            return context
+        return context
 
 
 class ProfileFollowToggle(LoginRequiredMixin, View):
@@ -360,3 +408,22 @@ class SearchListView(TemplateView):
 
 class RanksView(TemplateView):
     template_name = 'FeQta/ranks.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(RanksView, self).get_context_data(*args, **kwargs)
+        qs = Profile.objects.all()
+        # for itr in qs:
+        #     ques = Question.objects.filter(owner=itr.user)
+        #     itr.score = 0
+        #     for que in ques:
+        #         itr.score += que.followers.all().count()
+        #     answers = Answer.objects.filter(owner=itr.user)
+        #     for ans in answers:
+        #         itr.score += 2*ans.likes.count() + ans.needs_improvement.count() - ans.dislikes.count()
+        #     itr.score += itr.followers.count()
+        #     itr.save()
+        # qs = Profile.objects.all()
+        total = range(1,qs.count()+1)
+        list = zip(qs, total)
+        context['list'] = list
+        return context
