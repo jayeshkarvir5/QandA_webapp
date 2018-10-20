@@ -5,7 +5,7 @@ from django.views.generic import View, ListView, DetailView, CreateView, UpdateV
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from .models import Topic, Question, Answer, Profile
 from django.urls import reverse_lazy, reverse
-from .forms import QuestionCreateForm, AnswerCreateForm, RegisterForm
+from .forms import QuestionCreateForm, AnswerCreateForm, RegisterForm, ProfileUpdateForm
 from django.db.models import Q
 # read about django anonymous user
 # take care of user changing the url
@@ -51,7 +51,7 @@ class HomeView(View):
         qs = Answer.objects.filter(question__in=followed_questions)  # followed question answered,
         qs1 = Answer.objects.filter(question__owner__id=user.id)  # answer for my question
         qs2 = Answer.objects.filter(owner__id__in=is_following_user_ids)  # following_user answer
-        qs3 = Answer.objects.filter(likes__id__in=is_following_user_ids)  # like by following_user
+        qs3 = Answer.objects.filter(likes__id__in=is_following_user_ids, question__topic__in=is_following_topic_id)  # like by following_user
         qs4 = Answer.objects.filter(question__topic__in=is_following_topic_id)  # topics followed answers
         # qs5 = Answer.objects.filter(question__owner__id__in=is_following_user_ids)  # following_user ques answered
         context = {
@@ -277,7 +277,7 @@ class AnswersView(ListView):
         user = request.user
         is_following_user_ids = [x.user.id for x in user.is_following.all()]
         is_following_topic_id = [x.id for x in user.topics_followed.all()]
-        qs1 = Question.objects.filter(owner__id__in=is_following_user_ids)  # following_user ques
+        qs1 = Question.objects.filter(owner__id__in=is_following_user_ids, topic__in=is_following_topic_id)  # following_user ques
         qs2 = Question.objects.filter(topic__in=is_following_topic_id)  # topics followed ques
         context = {
             "topic_rld": qs2,
@@ -286,20 +286,48 @@ class AnswersView(ListView):
         return render(request, 'FeQta/answers_loggedin.html', context)
 
 
-class ProfileDetailView(DetailView):
-    template_name = 'FeQta/profile_detail.html'
-    flag = True
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileUpdateForm
+    template_name = "FeQta/profile_form.html"
+    login_url = reverse_lazy('FeQta:login')
 
     def get_object(self):
         username = self.kwargs.get('username')
         if username is None:
             raise 404
             # return render(self.request, 'FeQta/error_page.html', {'error': "Question not found"})
-        return get_object_or_404(User, username__iexact=username, is_active=True)
+        return get_object_or_404(Profile, user__username__iexact=username)
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        if instance.user != self.request.user:
+            return render(self.request, 'FeQta/error_page.html', {'error': "Only the owner of this Profile may edit."})
+        else:
+            return super(ProfileUpdateView, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProfileUpdateView, self).get_context_data(*args, **kwargs)
+        context['head'] = 'Update your Profile'
+        context['title'] = ''
+        return context
+
+
+class ProfileDetailView(DetailView):
+    template_name = 'FeQta/profile_detail.html'
+
+    def get_object(self):
+        username = self.kwargs.get('username')
+        if username is None:
+            raise 404
+            # return render(self.request, 'FeQta/error_page.html', {'error': "Question not found"})
+        return get_object_or_404(Profile, user__username__iexact=username)
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProfileDetailView, self).get_context_data(*args, **kwargs)
-        user = context['user']
+        user = self.object.user
+        print(user)
+        print(self.request.user)
         if self.request.user.is_authenticated:
             if user.is_authenticated:
                 is_following = False
@@ -328,7 +356,7 @@ class ProfileDetailView(DetailView):
             context['answers'] = qs2
         if qs3:
             context['topics'] = qs3
-            return context
+        return context
 
 
 class ProfileFollowToggle(LoginRequiredMixin, View):

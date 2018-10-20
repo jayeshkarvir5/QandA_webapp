@@ -28,22 +28,25 @@ class Profile(models.Model):
     # user.followers user.following
     followers = models.ManyToManyField(User, related_name='is_following', blank=True)
     # following = models.ManyToManyField(User, related_name='following', blank=True)
-    activated = models.BooleanField(default=False)
-    activation_key = models.CharField(max_length=45, blank=True, null=True)
+    # activated = models.BooleanField(default=False)
+    # activation_key = models.CharField(max_length=45, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    desc = models.TextField(max_length=200, blank=True, null=True)
+    pic = models.FileField(null=True, blank=True)
+    score = models.IntegerField(blank=True, null=True)
     objects = ProfileManager()
 
     def __str__(self):
         return self.user.username
 
-    def send_actication_email(self):
-        print("Activation")
-        if not self.activated:
-            self.activation_key = code_generator()
-            self.save()
-            sent_mail = False
-            return sent_mail
+    # def send_actication_email(self):
+    #     print("Activation")
+    #     if not self.activated:
+    #         self.activation_key = code_generator()
+    #         self.save()
+    #         sent_mail = False
+    #         return sent_mail
 
     def get_absolute_url(self):
         return reverse('FeQta:profile_detail', kwargs={'username': self.user.username})

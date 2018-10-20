@@ -7,19 +7,37 @@
         .table-dark{
             background-color: #1b2845;
         }
+        .img-fluid{
+            max-width:15em;
+            max-height: 15em;
+            height: auto;
+            border-radius: 100%;
+        }
     </style>
 
     <div class="card text-center " style="width: 60%;margin-left:20%; ">
         <div class="card-body">
-            <h3 class="card-title">{{ user.username }}</h3><br/>
+            {% if profile.pic %}
+            <img class="card-img-top img-fluid" src="{{ profile.pic.url }}"
+                   /><br/><br/>
+            {%else%}
+            <img class="card-img-top img-fluid" src="/media/default_img.png"
+                   /><br/><br/>
+            {% endif %}
+            {% if profile.desc %}
+            <p class="card-text">Description: {{ profile.desc }}</p>
+            {% else %}
+            <p>Description: -</p>
+            {% endif %}
+            <h3 class="card-title">{{profile.user.username }}</h3><br/>
             <form class="form" method="get" action=".">
                 <input type="text" placeholder="Search.." name="q">
                 <button class="btn btn-default" type="submit" value="request.GET.q">Search</button>
             </form>
-            {% include 'FeQta/snippets/profile_follow_btn.html' with username=user.username is_following=is_following %}
-            {% if request.user.is_authenticated and user == request.user %}
-                <form class="form" action="{% url 'FeQta:logout_page' %}">
-                    <button type="submit" class='btn btn-default'>Logout</button>
+            {% include 'FeQta/snippets/profile_follow_btn.html' with username=profile.user.username is_following=is_following %}
+            {% if request.user.is_authenticated and profile.user == user %}
+                <form class="form" action="{% url 'FeQta:profile_edit' username=profile.user.username%}">
+                    <button type="submit" class='btn btn-default'>Edit</button>
                 </form>
             {% endif%}
         </div>

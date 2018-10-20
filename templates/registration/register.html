@@ -1,15 +1,25 @@
-{% extends "base.html" %}
+{% include 'snippets/css.html' %}
+<body class="text-light" style="background-color: #1b2845">
+<p class="head">Fe<span class="text-warning">Q</span>t<span class="text-warning">A</span></p>
+<div class="loginreg" >
 
-{% block body %}
-<h5>Register:</h5>
 <form method="post" action="{% url 'FeQta:register' %}">
 {% csrf_token %}
-{{ form.as_p }}
+    <!--{{form.as_p}}-->
+  {% for field in form %}
+            <div class="form-group">
+                <label>{{field.label_tag}}</label>
+                <input class="form-control" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}"
+                       type='{%if field.html_name == "username" or field.html_name == "email"%}text{% else %}password{% endif %}' />
+                {%if field.html_name == "username"%}<small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>{%endif%}
+                <small>{{ field.errors }}</small>
+            </div>
+        {% endfor %}
 
-<input type="submit" value="Register">
-<input type="hidden" name="next" value="{{ next }}">
-<p>Did you need a <a href="{% url 'FeQta:login'%}">Login?</a></p>
+    <button type="submit" class="btn btn-outline-warning" style="margin-left:40%">Signup</button>
+    <input type="hidden" name="next" value="{{ next }}">
+    <p style="margin-top: 2%">Did you need a <a class="text-warning" href="{% url 'FeQta:login'%}">Login?</a></p>
+    <p>Back to <a href="{% url 'FeQta:home' %}" class="text-warning">Home</a></p>
 </form>
-
-
-{% endblock %}
+</div>
+</body>
