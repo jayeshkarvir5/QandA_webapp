@@ -6,9 +6,15 @@
 {% block nav2 %}
     <div class="card card-body" style="margin-top: 4%">
        <form class="form-inline" method="get" action=".">
-                <input type="search" class="form-control badge-pill "
-                       placeholder="FeQta at your service"
-                       style="width:80%" name="q">
+         <div class="input-group" style="width: 50%;margin-left:25%">
+                 <input type="search" class="form-control" placeholder="FeQtA at your service"
+                   aria-label="search" aria-describedby="button"  name="q">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary follow-btn" id="button" value="request.GET.q"><i class="fas fa-search"></i></button>
+                </div>
+         </div>
+       </form>
+    </div>
        </form>
     </div>
 {% endblock %}

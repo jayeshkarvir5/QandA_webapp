@@ -369,6 +369,7 @@ class ProfileDetailView(DetailView):
             qs = qs.search(query)  # only owner=user questions
             # qs = Question.objects.search(query) all questions
             qs3 = qs3.search(query)
+            qs2 = qs2.search(query)
         if qs:
             context['questions'] = qs
         if qs2:

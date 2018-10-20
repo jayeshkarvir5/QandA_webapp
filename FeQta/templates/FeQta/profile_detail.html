@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 
-{% block title %}{{ user.username }}{% endblock %}
+{% block title %}{{ profile.user.username }}{% endblock %}
 {% block body %}
     <style>
         .table-dark{
@@ -12,18 +12,43 @@
             max-height: 15em;
             height: auto;
             border-radius: 100%;
+            transition: .5s ease;
+            backface-visibility: hidden;
+        }
+        .middle{
+            transition: .5s ease;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .parent:hover .middle{
+            opacity: 1;
+        }
+        .parent:hover .img-fluid{
+            opacity: 0.5;
         }
     </style>
 
     <div class="card text-center " style="width: 60%;margin-left:20%; ">
         <div class="card-body">
+            <span class="parent">
             {% if profile.pic %}
             <img class="card-img-top img-fluid" src="{{ profile.pic.url }}"
                    /><br/><br/>
+            {% if request.user.is_authenticated and profile.user == user %}
+                <form class="form middle" action="{% url 'FeQta:profile_edit' username=profile.user.username%}">
+                    <button type="submit" class='btn btn-default'>Edit</button>
+                </form>
+            {% endif%}
+            </span>
             {%else%}
             <img class="card-img-top img-fluid" src="/media/default_img.png"
                    /><br/><br/>
             {% endif %}
+
             {% if profile.desc %}
             <p class="card-text">Description: {{ profile.desc }}</p>
             {% else %}
@@ -31,15 +56,15 @@
             {% endif %}
             <h3 class="card-title">{{profile.user.username }}</h3><br/>
             <form class="form" method="get" action=".">
-                <input type="text" placeholder="Search.." name="q">
-                <button class="btn btn-default" type="submit" value="request.GET.q">Search</button>
+                <div class="input-group" style="width: 60%;margin-left:20%">
+                 <input type="search" class="form-control" placeholder="Search.."
+                   aria-label="search" aria-describedby="button"  name="q">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary follow-btn" id="button" value="request.GET.q"><i class="fas fa-search"></i></button>
+                </div>
+                </div>
             </form>
             {% include 'FeQta/snippets/profile_follow_btn.html' with username=profile.user.username is_following=is_following %}
-            {% if request.user.is_authenticated and profile.user == user %}
-                <form class="form" action="{% url 'FeQta:profile_edit' username=profile.user.username%}">
-                    <button type="submit" class='btn btn-default'>Edit</button>
-                </form>
-            {% endif%}
         </div>
     </div>
     <div class="mt-3">

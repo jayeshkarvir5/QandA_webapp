@@ -166,6 +166,27 @@ class Question(models.Model):
 pre_save.connect(slug_pre_save_receiver, Question)
 
 
+class AnswerQuerySet(models.query.QuerySet):
+
+    def search(self, query):
+        query = query.strip()  # get rid of preciding space
+        if query:  # Question.objects.all().search(query) #Question.objects.filter(something).search()
+            return self.filter(
+                    Q(question__question__icontains=query) |
+                    Q(question__topic__name__icontains=query)
+                ).distinct()
+        return self
+
+
+class AnswerManager(models.Manager):
+
+    def get_queryset(self):
+        return AnswerQuerySet(self.model, using=self._db)
+
+    def search(self, query):  # Question.objects.search()
+        return self.get_queryset().search(query)
+
+
 class Answer(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -176,6 +197,7 @@ class Answer(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(null=True, blank=True)
+    objects = AnswerManager()
 
     class Meta:
         ordering = ['-updated', '-timestamp']
