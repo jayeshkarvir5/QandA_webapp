@@ -137,11 +137,15 @@ class QuestionDetailView(DetailView):
 def QuestionFollowToggle(request, slug):
     user = request.user
     question_to_toggle = Question.objects.get(slug=slug)
+    profile = Profile.objects.filter(user=question_to_toggle.owner)[0]
     if user in question_to_toggle.followers.all():
         question_to_toggle.followers.remove(user)
+        profile.score -= 1
     else:
         question_to_toggle.followers.add(user)
+        profile.score += 1
     question_to_toggle.save()
+    profile.save()
     return redirect(f'/FeQta/question/{question_to_toggle.slug}/')
 
 
@@ -218,33 +222,48 @@ class AnswerDeleteSuccess(LoginRequiredMixin,TemplateView):
 def LikeToggle(request, slug):
     user = request.user
     answer_to_toggle = Answer.objects.get(slug=slug)
+    owner = answer_to_toggle.owner
+    profile = Profile.objects.filter(user=owner)[0]
     if user in answer_to_toggle.likes.all():
         answer_to_toggle.likes.remove(user)
+        profile.score -= 2
     else:
         answer_to_toggle.likes.add(user)
+        profile.score += 2
         answer_to_toggle.save()
+    profile.save()
     return redirect(f'/FeQta/answer/{answer_to_toggle.slug}/')
 
 
 def NeedimpToggle(request, slug):
     user = request.user
     answer_to_toggle = Answer.objects.get(slug=slug)
+    owner = answer_to_toggle.owner
+    profile = Profile.objects.filter(user=owner)[0]
     if user in answer_to_toggle.needs_improvement.all():
         answer_to_toggle.needs_improvement.remove(user)
+        profile.score -= 1
     else:
         answer_to_toggle.needs_improvement.add(user)
+        profile.score += 1
         answer_to_toggle.save()
+    profile.save()
     return redirect(f'/FeQta/answer/{answer_to_toggle.slug}/')
 
 
 def DislikeToggle(request, slug):
     user = request.user
     answer_to_toggle = Answer.objects.get(slug=slug)
+    owner = answer_to_toggle.owner
+    profile = Profile.objects.filter(user=owner)[0]
     if user in answer_to_toggle.dislikes.all():
         answer_to_toggle.dislikes.remove(user)
+        profile.score += 1
     else:
         answer_to_toggle.dislikes.add(user)
+        profile.score -= 1
         answer_to_toggle.save()
+    profile.save()
     return redirect(f'/FeQta/answer/{answer_to_toggle.slug}/')
 
 
@@ -388,3 +407,21 @@ class SearchListView(TemplateView):
 
 class RanksView(TemplateView):
     template_name = 'FeQta/ranks.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(RanksView, self).get_context_data(*args, **kwargs)
+        qs = Profile.objects.all()
+        # for itr in qs:
+        #     ques = Question.objects.filter(owner=itr.user)
+        #     itr.score = 0
+        #     for que in ques:
+        #         itr.score += que.followers.all().count()
+        #     answers = Answer.objects.filter(owner=itr.user)
+        #     for ans in answers:
+        #         itr.score += 2*ans.likes.count() + ans.needs_improvement.count() - ans.dislikes.count()
+        #     itr.score += itr.followers.count()
+        #     itr.save()
+        # qs = Profile.objects.all()
+        context['profiles'] = qs
+        context['total'] = qs.count()
+        return context

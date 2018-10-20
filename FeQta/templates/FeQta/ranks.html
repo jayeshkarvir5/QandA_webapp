@@ -4,5 +4,25 @@
 {% block title %}Ranks{% endblock %}
 
 {% block body %}
-<h5>Ranks page rendered successfully !</h5>
+<table class="table table-stripped">
+    <tr>
+        <th>Rank</th>
+        <th>Username</th>
+        <th>Score</th>
+        <th>Profile</th>
+    </tr>
+    {% if profiles %}
+            {% for profile in profiles %}
+                    <tr>
+                        <td>#</td>
+                        <td>{{ profile.user.username }}</td>
+                        <td>{{ profile.score }}</td>
+                        <td><a href="{% url 'FeQta:profile_detail' profile.user.username %}"
+                           class="btn btn-sm btn-outline-secondary follow-btn">View Profile</a></td>
+                    </tr>
+            {% endfor %}
+</table>
+    {% else %}
+        <p class='lead'>No Profiles Found</p>
+    {% endif %}
 {% endblock %}

@@ -17,9 +17,12 @@ class ProfileManager(models.Manager):
         is_following = False
         if user in profile_.followers.all():
             profile_.followers.remove(user)
+            profile_.score -= 1
         else:
             profile_.followers.add(user)
+            profile_.score += 1
             is_following = True
+        profile_.save()
         return profile_, is_following
 
 
@@ -34,11 +37,14 @@ class Profile(models.Model):
     updated = models.DateTimeField(auto_now=True)
     desc = models.TextField(max_length=200, blank=True, null=True)
     pic = models.FileField(null=True, blank=True)
-    score = models.IntegerField(blank=True, null=True)
+    score = models.IntegerField(default=0,blank=True, null=True)
     objects = ProfileManager()
 
     def __str__(self):
         return self.user.username
+
+    class Meta:
+        ordering = ['-score']
 
     # def send_actication_email(self):
     #     print("Activation")
