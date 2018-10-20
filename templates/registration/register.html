@@ -16,10 +16,10 @@
             </div>
         {% endfor %}
 
-    <button type="submit" class="btn btn-outline-warning" style="margin-left:40%">Signup</button>
+    <button type="submit" class="btn btn-outline-warning" style="margin-left:42%">Signup</button>
     <input type="hidden" name="next" value="{{ next }}">
-    <p style="margin-top: 2%">Did you need a <a class="text-warning" href="{% url 'FeQta:login'%}">Login?</a></p>
-    <p>Back to <a href="{% url 'FeQta:home' %}" class="text-warning">Home</a></p>
+    <p style="margin-top: 2%">Already a User ? <a class="text-warning" href="{% url 'FeQta:login'%}">Login.</a></p>
+    <p>Back to <a href="{% url 'FeQta:home' %}" class="text-warning">Home.</a></p>
 </form>
 </div>
 </body>

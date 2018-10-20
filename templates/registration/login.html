@@ -30,10 +30,10 @@
                placeholder=" " type="password" />
         <small class="text-warning">{{ form.password.errors }}</small>
     </div>
-    <button type="submit" class="btn btn-outline-warning" style="margin-left:40%">Login</button>
+    <button type="submit" class="btn btn-outline-warning" style="margin-left:42%">Login</button>
     <input type="hidden" name="next" value="{{ next }}">
-    <p style="margin-top: 2%">Do you want to <a class="text-warning" href="{% url 'FeQta:register' %}">Signup?</a></p>
-    <p>Back to <a href="{% url 'FeQta:home' %}" class="text-warning">Home</a></p>
+    <p style="margin-top: 2%">New to FeQtA ? <a class="text-warning" href="{% url 'FeQta:register' %}">Signup.</a></p>
+    <p>Back to <a href="{% url 'FeQta:home' %}" class="text-warning">Home.</a></p>
 </form>
 </div>
 </body>
