@@ -422,6 +422,7 @@ class RanksView(TemplateView):
         #     itr.score += itr.followers.count()
         #     itr.save()
         # qs = Profile.objects.all()
-        context['profiles'] = qs
-        context['total'] = qs.count()
+        total = range(1,qs.count()+1)
+        list = zip(qs, total)
+        context['list'] = list
         return context
