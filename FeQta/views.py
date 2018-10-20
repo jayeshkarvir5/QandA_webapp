@@ -13,7 +13,7 @@ from django.db.models import Q
 # work on answer views(delete,update), question(delete?) and comment views?
 # login needs to be fixed
 # create a counter based html temp to render mixed queries of different qs
-
+# activate user
 
 User = get_user_model()
 
@@ -21,11 +21,11 @@ User = get_user_model()
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = "registration/register.html"
-    success_url = reverse_lazy()
+    success_url = reverse_lazy('FeQta:login')
 
     def dispatch(self, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect('/FeQta/logout/')
+            return redirect('FeQta:logout_page')
         return super(RegisterView, self).dispatch(*args, **kwargs)
 
 

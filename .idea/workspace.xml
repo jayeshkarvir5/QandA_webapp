@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b5a58ab5-f164-4d3b-ba2c-c3f7733a7982" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/answer_btns.html" beforeDir="false" afterPath="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/answer_btns.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/answer_card.html" beforeDir="false" afterPath="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/answer_card.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/topic_follow_btn.html" beforeDir="false" afterPath="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/topic_follow_btn.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FeQta/templates/FeQta/topic_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/FeQta/templates/FeQta/topic_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FeQta/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/FeQta/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FeQta/templates/FeQta/logout_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/FeQta/templates/FeQta/logout_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FeQta/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/FeQta/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FeQta/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/FeQta/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/registration/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/register.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -43,8 +45,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FeQta/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4326">
-              <caret line="214" column="46" selection-start-line="214" selection-start-column="46" selection-end-line="214" selection-end-column="46" />
+            <state relative-caret-position="518">
+              <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
               </folding>
@@ -52,59 +54,44 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="delete_success.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/delete_success.html">
+      <file leaf-file-name="register.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/registration/register.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="5" column="36" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
+            <state relative-caret-position="210">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="delete_answer_page.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/delete_answer_page.html">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/FeQta/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="93">
-              <caret line="10" column="52" selection-start-line="10" selection-start-column="52" selection-end-line="10" selection-end-column="52" />
+            <state relative-caret-position="336">
+              <caret line="42" column="49" selection-start-line="42" selection-start-column="49" selection-end-line="42" selection-end-column="49" />
               <folding>
-                <element signature="n#style#0;n#form#0;n#!!top" expanded="true" />
+                <element signature="e#0#32#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profile_detail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/profile_detail.html">
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FeQta/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
+            <state relative-caret-position="273">
+              <caret line="13" column="52" selection-start-line="13" selection-start-column="52" selection-end-line="13" selection-end-column="52" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="question_detail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/question_detail.html">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FeQta/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="15" column="12" lean-forward="true" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="topic_detail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/topic_detail.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="20" column="65" selection-start-line="20" selection-start-column="65" selection-end-line="20" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="topic_follow_btn.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/snippets/topic_follow_btn.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="4" column="69" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="69" />
+            <state relative-caret-position="351">
+              <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -125,7 +112,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/FeQta/utils.py" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/form_template.html" />
         <option value="$PROJECT_DIR$/FeQta/validators.py" />
         <option value="$PROJECT_DIR$/templates/answers.html" />
@@ -152,8 +138,6 @@
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/like_btn.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/profile_follow_btn.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/question_detail.html" />
-        <option value="$PROJECT_DIR$/templates/registration/register.html" />
-        <option value="$PROJECT_DIR$/FeQta/models.py" />
         <option value="$PROJECT_DIR$/FeQta/forms.py" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/logoutpage.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/error_page.html" />
@@ -165,17 +149,20 @@
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/question_follow_btn.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/home_feed.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/answer_detail.html" />
-        <option value="$PROJECT_DIR$/FeQta/templates/FeQta/logout_page.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/deleted_answer.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/profile_detail.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/delete_answer_page.html" />
-        <option value="$PROJECT_DIR$/FeQta/views.py" />
         <option value="$PROJECT_DIR$/FeQta/urls.py" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/delete_success.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/answer_card.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/answer_btns.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/topic_detail.html" />
         <option value="$PROJECT_DIR$/FeQta/templates/FeQta/snippets/topic_follow_btn.html" />
+        <option value="$PROJECT_DIR$/templates/registration/register.html" />
+        <option value="$PROJECT_DIR$/FeQta/views.py" />
+        <option value="$PROJECT_DIR$/FeQta/templates/FeQta/logout_page.html" />
+        <option value="$PROJECT_DIR$/FeQta/utils.py" />
+        <option value="$PROJECT_DIR$/FeQta/models.py" />
       </list>
     </option>
   </component>
@@ -200,7 +187,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -226,40 +212,11 @@
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="FeQta" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="QandA_webapp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="QandA_webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="FeQta" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="FeQta" type="462c0819:PsiDirectoryNode" />
-              <item name="snippets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="QandA_webapp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="QandA_webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="QandA_webapp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="QandA_webapp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="QandA_webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="QandA_webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="settings" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="QandA_webapp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="QandA_webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="QandA_webapp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="QandA_webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="snippets" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -371,9 +328,9 @@
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3294893" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3294893" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.0" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8830313" visible="true" weight="0.295764" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8830313" visible="true" weight="0.30484116" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" weight="0.32980332" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -525,13 +482,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FeQta/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/search.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -543,27 +493,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="5" column="14" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/registration/register.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FeQta/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="60" column="67" selection-start-line="60" selection-start-column="67" selection-end-line="60" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/registration/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="5" column="57" selection-start-line="5" selection-start-column="57" selection-end-line="5" selection-end-column="57" />
         </state>
       </provider>
     </entry>
@@ -593,13 +522,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FeQta/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1911">
-          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
         </state>
       </provider>
     </entry>
@@ -645,23 +567,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FeQta/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4326">
-          <caret line="214" column="46" selection-start-line="214" selection-start-column="46" selection-end-line="214" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#64#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/snippets/answer_card.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="5" column="27" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
-          <folding>
-            <element signature="n#style#0;n#h5#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -672,20 +581,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/logout_page.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="7" column="49" lean-forward="true" selection-start-line="6" selection-start-column="38" selection-end-line="7" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/delete_answer_page.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="93">
           <caret line="10" column="52" selection-start-line="10" selection-start-column="52" selection-end-line="10" selection-end-column="52" />
-          <folding>
-            <element signature="n#style#0;n#form#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -693,13 +592,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FeQta/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
         </state>
       </provider>
     </entry>
@@ -717,20 +609,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/profile_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/question_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="15" column="12" lean-forward="true" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/topic_detail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -740,8 +618,90 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/snippets/topic_follow_btn.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" column="69" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="69" />
+        <state relative-caret-position="126">
+          <caret line="6" column="11" lean-forward="true" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/question_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-105">
+          <caret line="4" column="33" lean-forward="true" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/profile_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FeQta/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1218">
+          <caret line="60" column="67" selection-start-line="60" selection-start-column="67" selection-end-line="60" selection-end-column="67" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/registration/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="57" selection-start-line="5" selection-start-column="57" selection-end-line="5" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/registration/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FeQta/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FeQta/templates/FeQta/logout_page.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="16" lean-forward="true" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FeQta/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="518">
+          <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FeQta/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="13" column="52" selection-start-line="13" selection-start-column="52" selection-end-line="13" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FeQta/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="42" column="49" selection-start-line="42" selection-start-column="49" selection-end-line="42" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

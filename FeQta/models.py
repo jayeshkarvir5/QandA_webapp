@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import pre_save, post_save
-from .utils import unique_slug_generator
+from .utils import unique_slug_generator, code_generator
 from django.urls import reverse
 # read docs for fields
 
@@ -29,12 +29,21 @@ class Profile(models.Model):
     followers = models.ManyToManyField(User, related_name='is_following', blank=True)
     # following = models.ManyToManyField(User, related_name='following', blank=True)
     activated = models.BooleanField(default=False)
+    activation_key = models.CharField(max_length=45, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     objects = ProfileManager()
 
     def __str__(self):
         return self.user.username
+
+    def send_actication_email(self):
+        print("Activation")
+        if not self.activated:
+            self.activation_key = code_generator()
+            self.save()
+            sent_mail = False
+            return sent_mail
 
     def get_absolute_url(self):
         return reverse('FeQta:profile_detail', kwargs={'username': self.user.username})
