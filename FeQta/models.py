@@ -151,6 +151,9 @@ class Question(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['-updated', '-timestamp']
+
     def get_absolute_url(self):
         return reverse('FeQta:question_detail', kwargs={'slug': self.slug})
     #   return reverse('FeQta:question_detail', kwargs={'slug1':self.topic.slug, 'slug2': self.slug})
@@ -169,7 +172,7 @@ pre_save.connect(slug_pre_save_receiver, Question)
 class AnswerQuerySet(models.query.QuerySet):
 
     def search(self, query):
-        query = query.strip()  # get rid of preciding space
+        query = query.strip()  # get rid of preceding space
         if query:  # Question.objects.all().search(query) #Question.objects.filter(something).search()
             return self.filter(
                     Q(question__question__icontains=query) |

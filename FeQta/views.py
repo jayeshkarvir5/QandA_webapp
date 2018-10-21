@@ -296,12 +296,13 @@ class AnswersView(ListView):
         user = request.user
         is_following_user_ids = [x.user.id for x in user.is_following.all()]
         is_following_topic_id = [x.id for x in user.topics_followed.all()]
-        qs1 = Question.objects.filter(owner__id__in=is_following_user_ids, topic__in=is_following_topic_id)  # following_user ques
-        qs2 = Question.objects.filter(topic__in=is_following_topic_id)  # topics followed ques
+        qs1 = Question.objects.filter(owner__id__in=is_following_user_ids, topic__in=is_following_topic_id).distinct()  # following_user ques
+        qs2 = Question.objects.filter(topic__in=is_following_topic_id).distinct()  # topics followed ques
         context = {
             "topic_rld": qs2,
             "following_user": qs1,
         }
+        # print(qs2.order_by('-followers'))
         return render(request, 'FeQta/answers_loggedin.html', context)
 
 
@@ -328,7 +329,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProfileUpdateView, self).get_context_data(*args, **kwargs)
         context['head'] = 'Update your Profile'
-        context['title'] = ''
+        context['title'] = 'Profile'
         return context
 
 
