@@ -10,7 +10,7 @@
             <div class="form-group">
                 <label>{{field.label_tag}}</label>
                 <input class="form-control" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}"
-                       type='{%if field.html_name == "username" or field.html_name == "email"%}text{% else %}password{% endif %}' />
+                       type='{%if field.html_name == "username"%}text{% elif field.html_name == "email"%}email{% else %}password{% endif %}' />
                 {%if field.html_name == "username"%}<small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>{%endif%}
                 <small>{{ field.errors }}</small>
             </div>
