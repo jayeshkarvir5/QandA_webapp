@@ -106,6 +106,9 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.owner = self.request.user
+        qs = Question.objects.filter(question=instance.question,topic=instance.topic)
+        if qs.exists():
+            return render(self.request, 'FeQta/error_page.html', {'error': "A similar Question is already asked you may follow it by searching for it."})
         return super(QuestionCreateView, self).form_valid(form)
 
 
@@ -163,8 +166,11 @@ class AnswerCreateView(LoginRequiredMixin, CreateView):
         except Question.DoesNotExist:
             return render(self.request, 'FeQta/error_page.html', {'error': "Question not found"})
         instance.question = question
+        qs = Answer.objects.filter(question=question, owner=instance.owner)
         if instance.owner == instance.question.owner:
-            return render(self.request, 'FeQta/error_page.html', {'error': "User is answering the question they asked"})
+            return render(self.request, 'FeQta/error_page.html', {'error': "You are answering the question which you asked"})
+        elif qs.exists():
+            return render(self.request, 'FeQta/error_page.html', {'error': "You cannot answer the question for second time."})
         else:
             return super(AnswerCreateView, self).form_valid(form)
 
