@@ -42,5 +42,12 @@
                </ul>
       </div>
     </nav>
+    {% if not request.user.is_authenticated %}
+        <div class="card">
+            <div class="card-body">
+                New to FeQta ? Click to <a href="/">know more</a>.
+            </div>
+        </div>git
+    {% endif %}
 </div>
 

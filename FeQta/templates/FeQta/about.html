@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+</head>
+{% include 'snippets/css.html' %}
+<body class="text-light" style="background-color: #1b2845">
+<p class="head">Fe<span class="text-warning">Q</span>t<span class="text-warning">A</span></p>
+<div class="container container-fluid">
+    <p style="font-size: 35px;">About</p>
+    <p>Fe<span class="text-warning">Q</span>t<span class="text-warning">A</span> translates to <span class="text-warning">F</span>or
+        <span class="text-warning">e</span>very <span class="text-warning">Q</span>uestion <span class="text-warning">t</span>here's
+        an <span class="text-warning">A</span>nswer. At Fe<span class="text-warning">Q</span>t<span class="text-warning">a</span>
+        we make sure that you get answer for your every question related to competetive examinations. FeQta is built for
+        aspiring Indian students who want to clear their examinations with flying colors as well as for the experienced
+        professionals who can share their valuable knowledge.</p>
+        <p>Fe<span class="text-warning">Q</span>t<span class="text-warning">A</span> provides you with these features -</p>
+    <ul>
+        <li>
+            Follow topics of your choice.
+        </li>
+        <li>
+            Follow your favourite writers and make your feed better.
+        </li>
+        <li>
+            Follow questions and get their answers in your feed when other FeQta users answer it.
+        </li>
+        <li>
+            Rank based system for knowing the top writers.
+        </li>
+    </ul>
+    <p style="margin-top: 4%;font-size: 20px;">Get started without signing up.Click<a class="text-warning" href="{% url 'FeQta:home' %}"> here.</a></p>
+    <p style="margin-top: 2%;font-size: 20px">New to FeQtA ? <a class="text-warning" href="{% url 'FeQta:register' %}">Signup.</a></p>
+</div>
+</body>
+</html>

@@ -18,6 +18,10 @@ from django.db.models import Q
 User = get_user_model()
 
 
+class AboutView(TemplateView):
+    template_name = 'FeQta/about.html'
+
+
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = "registration/register.html"
