@@ -1,1 +1,1 @@
-"web: gunicorn QandA_webapp.wsgi" 
+web: gunicorn QandA_webapp.wsgi
