@@ -22,7 +22,7 @@ from FeQta.views import AboutView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('FeQta/', include('FeQta.urls')),
-    path('',AboutView.as_view(), name='about')
+    path('', AboutView.as_view(), name='about')
 ]
 
 

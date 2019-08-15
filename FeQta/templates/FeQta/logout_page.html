@@ -6,7 +6,7 @@
 {% block body %}
 {% if request.user.is_authenticated %}
     <h5 class="lead">Do you want to logout ?</h5>
-    <p class="lead">To create a new user you must logout.</p>
+    <!-- <p class="lead">To create a new user you must logout.</p> -->
     <form class="form" action="{% url 'FeQta:logout' %}">
         <button type="submit" class='btn '>Yes</button>
         <a href="{% url 'FeQta:profile_detail' request.user.username %}" class='btn btn-outline-secondary follow-btn'>No</a>

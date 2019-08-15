@@ -47,16 +47,18 @@ class HomeView(View):
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             qs = Answer.objects.all()
-            return render(request,'FeQta/home.html',{'qs':qs})
+            return render(request, 'FeQta/home.html', {'qs': qs})
         user = request.user
-        is_following_user_ids =[x.user.id for x in user.is_following.all()]
-        is_following_topic_id =[x.id for x in user.topics_followed.all()]
+        is_following_user_ids = [x.user.id for x in user.is_following.all()]
+        is_following_topic_id = [x.id for x in user.topics_followed.all()]
         followed_questions = user.question_followed_by.all()
         qs = Answer.objects.filter(question__in=followed_questions)  # followed question answered,
         qs1 = Answer.objects.filter(question__owner__id=user.id)  # answer for my question
         qs2 = Answer.objects.filter(owner__id__in=is_following_user_ids)  # following_user answer
-        qs3 = Answer.objects.filter(likes__id__in=is_following_user_ids, question__topic__in=is_following_topic_id)  # like by following_user
-        qs4 = Answer.objects.filter(question__topic__in=is_following_topic_id)  # topics followed answers
+        qs3 = Answer.objects.filter(likes__id__in=is_following_user_ids,
+                                    question__topic__in=is_following_topic_id)  # like by following_user
+        # topics followed answers
+        qs4 = Answer.objects.filter(question__topic__in=is_following_topic_id)
         # qs5 = Answer.objects.filter(question__owner__id__in=is_following_user_ids)  # following_user ques answered
         context = {
             "ans_followed_questions": qs,
@@ -66,7 +68,7 @@ class HomeView(View):
             "topic_rld": qs4,
             "is_following_user_ids": is_following_user_ids,
         }
-        return render(request,'FeQta/home_feed.html',context)
+        return render(request, 'FeQta/home_feed.html', context)
 
 
 class TopicListView(ListView):
@@ -78,6 +80,7 @@ class TopicListView(ListView):
 
 class TopicDetailView(DetailView):
     model = Topic
+
     def get_context_data(self, *args, **kwargs):
         context = super(TopicDetailView, self).get_context_data(*args, **kwargs)
         user = self.request.user
@@ -110,7 +113,7 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.owner = self.request.user
-        qs = Question.objects.filter(question=instance.question,topic=instance.topic)
+        qs = Question.objects.filter(question=instance.question, topic=instance.topic)
         if qs.exists():
             return render(self.request, 'FeQta/error_page.html', {'error': "A similar Question is already asked you may follow it by searching for it."})
         return super(QuestionCreateView, self).form_valid(form)
@@ -134,7 +137,7 @@ class QuestionDetailView(DetailView):
                 context['ans'] = ans
             context['ans_cond'] = ans_cond
         if user in question.followers.all():
-                is_following = True
+            is_following = True
         context['is_following'] = is_following
         return context
 
@@ -221,11 +224,11 @@ class AnswerDeleteView(LoginRequiredMixin, DeleteView):
         return obj
 
 
-class AnswerDeletePage(LoginRequiredMixin,TemplateView):
+class AnswerDeletePage(LoginRequiredMixin, TemplateView):
     template_name = 'FeQta/delete_answer_page.html'
 
 
-class AnswerDeleteSuccess(LoginRequiredMixin,TemplateView):
+class AnswerDeleteSuccess(LoginRequiredMixin, TemplateView):
     template_name = 'FeQta/delete_success.html'
 
 
@@ -279,6 +282,7 @@ def DislikeToggle(request, slug):
 
 class AnswerDetailView(DetailView):
     model = Answer
+
     def get_context_data(self, *args, **kwargs):
         context = super(AnswerDetailView, self).get_context_data(*args, **kwargs)
         is_liked = False
@@ -302,12 +306,14 @@ class AnswersView(ListView):
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             qs = Question.objects.all()
-            return render(request, 'FeQta/answers.html', {'qs':qs})
+            return render(request, 'FeQta/answers.html', {'qs': qs})
         user = request.user
         is_following_user_ids = [x.user.id for x in user.is_following.all()]
         is_following_topic_id = [x.id for x in user.topics_followed.all()]
-        qs1 = Question.objects.filter(owner__id__in=is_following_user_ids, topic__in=is_following_topic_id).distinct()  # following_user ques
-        qs2 = Question.objects.filter(topic__in=is_following_topic_id).distinct()  # topics followed ques
+        qs1 = Question.objects.filter(owner__id__in=is_following_user_ids,
+                                      topic__in=is_following_topic_id).distinct()  # following_user ques
+        qs2 = Question.objects.filter(
+            topic__in=is_following_topic_id).distinct()  # topics followed ques
         context = {
             "topic_rld": qs2,
             "following_user": qs1,
@@ -434,7 +440,7 @@ class RanksView(TemplateView):
         #     itr.score += itr.followers.count()
         #     itr.save()
         # qs = Profile.objects.all()
-        total = range(1,qs.count()+1)
+        total = range(1, qs.count()+1)
         list = zip(qs, total)
         context['list'] = list
         return context
