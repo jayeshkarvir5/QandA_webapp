@@ -37,7 +37,7 @@ class Profile(models.Model):
     updated = models.DateTimeField(auto_now=True)
     desc = models.TextField(max_length=200, blank=True, null=True)
     pic = models.FileField(null=True, blank=True)
-    score = models.IntegerField(default=0,blank=True, null=True)
+    score = models.IntegerField(default=0, blank=True, null=True)
     objects = ProfileManager()
 
     def __str__(self):
@@ -62,9 +62,10 @@ def post_save_user_receiver(sender, instance, created, *args, **kwargs):
 
     if created:
         profile, is_created = Profile.objects.get_or_create(user=instance)
-        default_user_profile = Profile.objects.get_or_create(user__username="FeQtA")[0]  # user__username=
-        default_user_profile.followers.add(instance)
-        profile.followers.add(default_user_profile.user)
+        default_user_profile = Profile.objects.get_or_create(user__username="FeQtA")[
+            0]  # user__username=
+        # default_user_profile.followers.add(instance)
+        # profile.followers.add(default_user_profile.user)
 
 
 post_save.connect(post_save_user_receiver, sender=User)
@@ -76,9 +77,9 @@ class TopicQuerySet(models.query.QuerySet):
         query = query.strip()
         if query:
             return self.filter(
-                    Q(name__icontains=query) |
-                    Q(name__iexact=query)
-                ).distinct()
+                Q(name__icontains=query) |
+                Q(name__iexact=query)
+            ).distinct()
         return self
 
 
@@ -124,9 +125,9 @@ class QuestionQuerySet(models.query.QuerySet):
         query = query.strip()  # get rid of preciding space
         if query:  # Question.objects.all().search(query) #Question.objects.filter(something).search()
             return self.filter(
-                    Q(question__icontains=query) |
-                    Q(topic__name__icontains=query)
-                ).distinct()
+                Q(question__icontains=query) |
+                Q(topic__name__icontains=query)
+            ).distinct()
         return self
 
 
@@ -175,9 +176,9 @@ class AnswerQuerySet(models.query.QuerySet):
         query = query.strip()  # get rid of preceding space
         if query:  # Question.objects.all().search(query) #Question.objects.filter(something).search()
             return self.filter(
-                    Q(question__question__icontains=query) |
-                    Q(question__topic__name__icontains=query)
-                ).distinct()
+                Q(question__question__icontains=query) |
+                Q(question__topic__name__icontains=query)
+            ).distinct()
         return self
 
 
@@ -213,7 +214,7 @@ class Answer(models.Model):
 
     @property
     def title(self):
-        return "answer-to"+ str(self.question.pk) + "by" + self.owner.username
+        return "answer-to" + str(self.question.pk) + "by" + self.owner.username
 
 
 pre_save.connect(slug_pre_save_receiver, Answer)
