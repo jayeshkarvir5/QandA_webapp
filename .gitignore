@@ -1,5 +1,6 @@
 QandA_webapp/settings/local.py
 QandA_webapp/settings/local2.py
+*.sqlite3
 .idea/
 .DS_Store
 *.class
