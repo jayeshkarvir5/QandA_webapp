@@ -1,5 +1,5 @@
 dj-database-url==0.5.0
-Django==2.2.10
+Django==2.2.20
 django-tables2==2.0.5
 gunicorn==19.9.0
 olefile==0.46
